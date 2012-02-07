@@ -22,12 +22,28 @@ og
 noObstruction()
 er guards for FSM
 */
-bool floorHasOrder(){
+int floorHasOrder(){
 	return (destinationMatrix[direction][floor]||destionationMatrix[COMMAND][floor]);
 }
-bool noObstruction(){
+int noObstruction(){
 	return !(elev_get_obstruction_signal());
-} 
+}
+/*
+addOrderToList er en del av elevator-klassen
+*/ 
 void addOrderToList(enum elev_button_type_t button,enum floor_t floor){
 	destinationMatrix[button][floor]=1;
+}
+/*
+handleStop()
+handleEmergencyStop()
+handleDestination()
+kalles av tilstandsmaskinen ved hhv ankomst etasje, nødstopp og avgang etasje
+*/
+void handleStop(){
+	elev_set_door_open_lamp(1);
+	sleep(3);
+	if(noObstruction)
+		elev_set_door_open_lamp(0);
+	else
 }
