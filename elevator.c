@@ -33,7 +33,7 @@ int ctrl_elevatorObstructed(){
 addOrderToList()
 er en del av elevator-klassen
 */ 
-void ctrl_addOrderToList(enum elev_button_type_t button, enum floor_t floor){
+void ctrl_addOrderToList(elev_button_type_t button, floor_t floor){
 	destinationMatrix[button][floor]=1;
 	elev_set_button_lamp(button,floor);
 }
