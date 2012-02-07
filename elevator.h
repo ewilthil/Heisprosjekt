@@ -11,17 +11,23 @@ Spørsmål eller kommentarer?
 #define COMMAND 2
 
 enum direction_t{UP=1, DOWN=-1};
-/*FIRST,SECOND,THIRD,FOURTH,BETWEEN_FIRST_SECOND,BETWEEN_SECOND_THIRD,BETWEEN_THIRD_FOURTH*/
 enum floor_t{FIRST=0,SECOND=1,THIRD=2,FOURTH=3};
 
-enum event_t{FLOOR_REACHED, NEW_ORDER, STOP_PRESSED};
 
-bool noObstruction();
-bool floorHaveOrder();
-void handleStop();
-void handleEmergencyStop();
-void addOrderToList(buttonType,floor);
-void checkSensor();
+/*hovedfunksjoner*/
+int ctrl_elevatorObstructed();
+int ctrl_floorHasOrder();
+void ctrl_handleStop();
+void ctrl_handleEmergencyStop();
+void ctrl_handleDestination();
+void ctrl_addOrderToList(buttonType,floor);
+void ctrl_checkSensor();
+/*Støttefunksjoner*/
+int ctrl_checkOrderInThisDirection();
+int ctrl_checkOrderInOtherDirection();
+int ctrl_checkLowerFloorsForOrders();
+int ctrl_checkUpperFloorsForOrders();
+void ctrl_clearDestinationMatrix();
 
 
 
