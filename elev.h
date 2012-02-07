@@ -72,12 +72,13 @@ void elev_set_floor_indicator(int floor);
 /**
   Button types for function elev_set_button_lamp() and elev_get_button().
 */
+
+
 typedef enum tag_elev_lamp_type { 
     BUTTON_CALL_UP = 0, 
     BUTTON_CALL_DOWN = 1, 
     BUTTON_COMMAND = 2 
 } elev_button_type_t;
-
 
 
 /**
@@ -87,6 +88,8 @@ typedef enum tag_elev_lamp_type {
   @param floor Which floor to check button. Must be 0-3.
   @return 0 if button is not pushed. 1 if button is pushed.
 */
+
+
 int elev_get_button_signal(elev_button_type_t button, int floor);
 
 
