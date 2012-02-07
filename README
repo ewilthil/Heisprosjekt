@@ -1,1 +1,13 @@
-Hallo
+Navnegiving:
+- variableName
+- functionName
+- typename_t
+- ENUMS
+
+No prefixes for class functions
+
+function(int a,int b){
+	int c=a+b;
+	return c;
+}
+
