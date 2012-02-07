@@ -3,7 +3,7 @@
 
 static enum floor_t floor;
 static enum direction_t direction;
-static bool destinationMatrix[NUMBEROFBUTTONTYPES][NUMBEROFFLOORS]={
+static int destinationMatrix[NUMBEROFBUTTONTYPES][NUMBEROFFLOORS]={
                       /*1	2	3	4*/
 /*CALL_UP*/{		0,	0,	0,	0},
 /*CALL_DOWN*/{		0,	0,	0,	0},
