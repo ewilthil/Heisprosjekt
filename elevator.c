@@ -35,6 +35,7 @@ er en del av elevator-klassen
 */ 
 void addOrderToList(enum elev_button_type_t button, enum floor_t floor){
 	destinationMatrix[button][floor]=1;
+	elev_set_button_lamp(button,floor);
 }
 /*
 handleStop()
@@ -46,8 +47,10 @@ void handleStop(){
 	/*implementer som en egen setLights()*/
 	elev_set_door_open_lamp(1);
 	elev_set_button_lamp(BUTTON_COMMAND,floor,0);
-	if(floor!=FIRST&&direction==)
-		elev_set_button_lamp(
+	if(floor!=FIRST&&direction==DOWN)
+		elev_set_button_lamp(BUTTON_CALL_DOWN,floor,0);
+	if(floor!=FOURTH&&direction==UP)
+		elev_set_button_lamp(BUTTON_CALL_UP,floor,0);
 	/*end setLights()*/
 	clock_t startTime=clock();
 	clock_t stopTime=clock();
@@ -63,6 +66,7 @@ void handleStop(){
 void handleEmergencyStop(){
 	elev_set_stop_lamp(1);
 	elev_set_speed(0);
+	clearLights();
 	clearDestinationMatrix();
 }	
 void handleDestination(){
