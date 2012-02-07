@@ -37,13 +37,9 @@ void io_setFloorCallLight(floor_t floor, direction_t direction){
 void io_setCommandLight(floor_t floor){
 	elev_set_button_lamp(BUTTON_COMMAND,floor,1);
 }
-void io_setFloorIndicator(floor_t){
-	elev_set_floor_indicator(floor);
-}
 void io_openDoor(){
 	elev_set_door_open_lamp(1);
 }
-
 void io_startMotor(direction_t direction){
 	elev_set_speed(300*direction);
 }

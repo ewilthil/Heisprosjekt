@@ -7,16 +7,17 @@
 
 void io_resetStopLight();
 void io_closeDoor();
+void io_resetAllLights();
 void io_resetAllButtonLights();
-void io_resetFloorLightsOnTemporaryStop(floor_t, direction_t);
+void io_resetFloorLightsOnTemporaryStop(enum floor_t, enum direction_t);
 
 void io_setStopLight();
 void io_openDoor();
-void io_setFloorCallLight(floor_t, direction_t);
-void io_setCommandLight(floor_t);
-void io_setFloorIndicator(floor_t);
+void io_setFloorCallLight(enum floor_t, enum direction_t);
+void io_setCommandLight(enum floor_t);
 
-void io_startMotor(direction_t);
+
+void io_startMotor(enum direction_t);
 void io_stopMotor();
 
 
