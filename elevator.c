@@ -47,3 +47,7 @@ void handleStop(){
 		elev_set_door_open_lamp(0);
 	else
 }
+void handleDestination(){
+	if(/*heisen har ordre lengre opp*/)
+		elev_set_speed(300*dir);
+}
