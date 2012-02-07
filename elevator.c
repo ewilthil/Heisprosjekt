@@ -46,7 +46,8 @@ void handleStop(){
 	/*implementer som en egen setLights()*/
 	elev_set_door_open_lamp(1);
 	elev_set_button_lamp(BUTTON_COMMAND,floor,0);
-	if(floor!=FIRST
+	if(floor!=FIRST&&direction==)
+		elev_set_button_lamp(
 	/*end setLights()*/
 	clock_t startTime=clock();
 	clock_t stopTime=clock();
