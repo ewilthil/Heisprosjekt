@@ -1,8 +1,9 @@
-#include "elevator_IO.h"
-#include "elevator.h"
+#include "elevator_io.h"
+#include "elevator_ctrl.h"
+#include "elevatorSM.h"
 
-static enum floor_t floor;
-static enum direction_t direction;
+static floor_t floor;
+static direction_t direction;
 static int destinationMatrix[NUMBEROFBUTTONTYPES][NUMBEROFFLOORS]={
                       /*1	2	3	4*/
 /*CALL_UP*/{		0,	0,	0,	0},
