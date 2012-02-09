@@ -1,6 +1,6 @@
-#include "elevator.h"
-#include "tester.h"
+#include "elevator_ctrl.h"
 #include "elev.h"
+#include "elevator_sm.h"
 
 void checkStop(){
 	if(elev_get_stop_signal()){
