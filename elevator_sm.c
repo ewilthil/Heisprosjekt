@@ -1,4 +1,4 @@
-#include "elevatorSM.h"
+#include "elevator_sm.h"
 #include "elevator_ctrl.h"
 
 static enum state_t state = IDLE;

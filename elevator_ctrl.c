@@ -1,6 +1,6 @@
 #include "elevator_io.h"
 #include "elevator_ctrl.h"
-#include "elevatorSM.h"
+#include "elevator_sm.h"
 
 static floor_t floor;
 static direction_t direction;
