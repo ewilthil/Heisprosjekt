@@ -36,32 +36,25 @@ void ctrl_checkSensor(){
 	}
 }	
 /*
-floorHasOrder()
-og
-noObstruction()
-er guards for FSM
-*/
+ * floorHasOrder() og noObstruction() er guards for FSM
+ */
 int ctrl_floorHasOrder(){
 	return (destinationMatrix[direction][floor] || destinationMatrix[COMMAND][floor]);
 }
 int ctrl_elevatorObstructed(){
 	return io_elevatorIsObstructed();
 }
-/*
-addOrderToList()
-er en del av elevator-klassen
-*/ 
 void ctrl_addOrderToList(elev_button_type_t button, floor_t floor){
 	destinationMatrix[button][floor]=1;
 	io_setButtonLight(button, floor);
 	sm_handleEvent(NEW_DESTINATION);		
 }
 /*
-handleStop()
-handleEmergencyStop()
-handleDestination()
-kalles av tilstandsmaskinen ved hhv ankomst etasje, nødstopp og avgang etasje
-*/
+ * handleStop()
+ * handleEmergencyStop()
+ * handleDestination()
+ * kalles av tilstandsmaskinen ved hhv ankomst etasje, nødstopp og avgang etasje
+ */
 void ctrl_handleStop(){
 	ctrl_setLightsAtElevatorStop();
 	clock_t startTime=clock();
@@ -84,15 +77,29 @@ void ctrl_handleEmergencyStop(){
 void ctrl_handleDestination(){
 	io_resetStopLight();
 	printf("Retning: %d\n",direction);
-	if(ctrl_checkOrderInThisDirection()){
+	ctrl_setNewDirection();
+	/*
+	if(ctrl_checkOrderInCurrentDirection()){
 		printf("Motor burde startes\n");
 		io_startMotor(direction);
 	}else if(ctrl_checkOrderInOtherDirection()){
 		io_startMotor((-1)*direction);
 		direction = (-1)*direction;
 	}
+	*/
 }
-int ctrl_checkOrderInThisDirection(){
+void ctrl_setNewDirection(){
+	if(ctrl_checkForOrdersInCurrentDirection()){
+		return;
+	}else if(ctrl_checkForOrdersInOppositDirection()){
+		if(direction==UP)
+			direction=DOWN;
+		else
+			direction=UP;
+	}
+}
+
+int ctrl_checkForOrdersInCurrentDirection(){
 	int keepPreviousDirection=0;/*heisen går andre vei hvis ikke den får ordre i samme retning*/
 	if(direction==DOWN)
 		keepPreviousDirection=ctrl_checkLowerFloorsForOrders();
@@ -101,7 +108,7 @@ int ctrl_checkOrderInThisDirection(){
 			
 	return keepPreviousDirection;
 }
-int ctrl_checkOrderInOtherDirection(){
+int ctrl_checkForOrdersInOppositDirection(){
 	int changeDirection=0;/*ĥeisen skal ikke endre retning dersom den ikke har ordre i andre retning*/
 	if(direction==DOWN)
 		changeDirection=ctrl_checkUpperFloorsForOrders();

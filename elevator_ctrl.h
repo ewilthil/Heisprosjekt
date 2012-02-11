@@ -1,8 +1,8 @@
 /*
 Spørsmål eller kommentarer?
 */
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef ELEVATOR_CTRL_H
+#define ELEVATOR_CTRL_H
 
 #include "elev.h"
 #include <time.h>
@@ -34,8 +34,9 @@ void ctrl_handleDestination();
 void ctrl_addOrderToList( elev_button_type_t,  floor_t);
 void ctrl_checkSensor();
 /*Støttefunksjoner*/
-int ctrl_checkOrderInThisDirection();
-int ctrl_checkOrderInOtherDirection();
+void ctrl_setNewDirection();
+int ctrl_checkForOrdersInCurrentDirection();
+int ctrl_checkForOrdersInOppositDirection();
 int ctrl_checkLowerFloorsForOrders();
 int ctrl_checkUpperFloorsForOrders();
 void ctrl_clearDestinationMatrix();
@@ -44,4 +45,4 @@ void ctrl_setLightsAtElevatorStop();
 
 
 
-#endif //MAIN_H
+#endif //ELEVATOR_CTRL_H
