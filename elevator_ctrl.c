@@ -28,7 +28,7 @@ int ctrl_floorHasOrder(){
 	return (destinationMatrix[direction][floor] || destionationMatrix[COMMAND][floor]);
 }
 int ctrl_elevatorObstructed(){
-	return elev_get_obstruction_signal();
+	return io_elevatorIsObstructed();
 }
 /*
 addOrderToList()
@@ -36,7 +36,7 @@ er en del av elevator-klassen
 */ 
 void ctrl_addOrderToList(elev_button_type_t button, floor_t floor){
 	destinationMatrix[button][floor]=1;
-	elev_set_button_lamp(button,floor);
+	io_setButtonLight(button, floor);		
 }
 /*
 handleStop()
@@ -45,14 +45,7 @@ handleDestination()
 kalles av tilstandsmaskinen ved hhv ankomst etasje, nødstopp og avgang etasje
 */
 void ctrl_handleStop(){
-	/*implementer som en egen setLights()*/
-	elev_set_door_open_lamp(1);
-	elev_set_button_lamp(BUTTON_COMMAND,floor,0);
-	if(floor!=FIRST&&direction==DOWN)
-		elev_set_button_lamp(BUTTON_CALL_DOWN,floor,0);
-	if(floor!=FOURTH&&direction==UP)
-		elev_set_button_lamp(BUTTON_CALL_UP,floor,0);
-	/*end setLights()*/
+	ctrl_setLightsAtElevatorStop();
 	clock_t startTime=clock();
 	clock_t stopTime=clock();
 	while( ((stopTime-startTime)/CLOCKS_PER_SEC) < 3){
@@ -61,21 +54,21 @@ void ctrl_handleStop(){
 			startTime=stopTime;
 		stopTime=clock();
 	}
-	elev_set_door_lamp(0);
+	io_closeDoor();	
 	handleEvent(NEW_DESTINATION);
 }
 void ctrl_handleEmergencyStop(){
-	elev_set_stop_lamp(1);
-	elev_set_speed(0);
-	/*io_clearAllLights();*/
+	io_setStopLight();
+	io_stopMotor();
+	io_resetAllButtonLights();
 	ctrl_clearDestinationMatrix();
 }	
 void ctrl_handleDestination(){
-	elev_set_stop_lamp(0);
+	io_resetStopLight();
 	if(checkOrderInThisDirection())
-		elev_set_speed(300*dir);
+		io_startMotor(dir);
 	else if(checkOrderInOtherDirection())
-		elev_set_speed(300*(-1)*dir);
+		io_startMotor((-1)*dir);
 }
 int ctrl_checkOrderInThisDirection(){
 	int keepPreviousDirection=0;/*heisen går andre vei hvis ikke den får ordre i samme retning*/
@@ -121,3 +114,11 @@ void ctrl_clearDestinationMatrix(){
 		}
 	}
 }
+void ctrl_setLightsAtElevatorStop(){
+	io_openDoor();
+	io_resetButtonLight(BUTTON_COMMAND,floor);
+	if(floor!=FIRST&&direction==DOWN)
+		elev_reset_button_lamp(BUTTON_CALL_DOWN,floor);
+	if(floor!=FOURTH&&direction==UP)
+		elev_reset_button_lamp(BUTTON_CALL_UP,floor);
+}	

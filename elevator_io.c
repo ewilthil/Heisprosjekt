@@ -24,19 +24,24 @@ void io_resetFloorLightsOnTemporaryStop(floor_t floor, direction_t direction){
 void io_closeDoor(){
 	elev_set_door_open_lamp(0);
 }
-
+void io_resetButtonLight(buttonType_t button, floor_t floor){
+	elev_set_button_lamp(button,floor,0);
+}
 void io_setStopLight(){
 	elev_set_stop_lamp(1);
 }
-void io_setFloorCallLight(floor_t floor, direction_t direction){
+void io_setButtonLight(buttonType_t button, floor_t floor){
+	elev_set_button_lamp(button,floor,1);
+}
+/*void io_setFloorCallLight(floor_t floor, direction_t direction){
 	if(direction==UP)
 		elev_set_button_lamp(BUTTON_CALL_UP,floor,1);
 	else if(direction==DOWN)
 		elev_set_button_lamp(BUTTON_CALL_DOWN,floor,1);
-}
-void io_setCommandLight(floor_t floor){
+}*/
+/*void io_setCommandLight(floor_t floor){
 	elev_set_button_lamp(BUTTON_COMMAND,floor,1);
-}
+}*/
 void io_setFloorIndicator(floor_t floor){
 	elev_set_floor_indicator(floor);
 }
@@ -49,4 +54,10 @@ void io_startMotor(direction_t direction){
 }
 void io_stopMotor(){
 	elev_set_speed(0);
+}
+int io_elevatorIsObstructed(){
+	return elev_get_obstruction_signal();
+}
+int io_elevatorIsAtFloor(){
+	return elev_get_floor_sensor_signal();
 }

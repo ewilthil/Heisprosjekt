@@ -38,6 +38,7 @@ int ctrl_checkOrderInOtherDirection();
 int ctrl_checkLowerFloorsForOrders();
 int ctrl_checkUpperFloorsForOrders();
 void ctrl_clearDestinationMatrix();
+void ctrl_setLightsAtElevatorStop();
 
 
 
