@@ -5,7 +5,7 @@
 #include "elevator_ui.h"
 #include "elevator_ctrl.h"
 #include <stdio.h>
-
+#include "avlusing.h"
 
 int main()
 {
@@ -15,14 +15,16 @@ int main()
         	return 1;
    	}
     	
-	/*
-	ctrl_initiateElevator(); 
+	//debug_testDestinationMatrix();
+	
+	
+	ctrl_initiateElevator();
     	while (1) {
 		ui_checkStop();
 		ui_checkButtons();
 		ctrl_checkSensor();
        	}
-	*/
+	
 
     	return 0;
 }

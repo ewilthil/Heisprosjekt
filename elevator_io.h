@@ -17,7 +17,7 @@ void io_setButtonLight(buttonType_t, floor_t);
 //void io_setCommandLight(floor_t);
 void io_setFloorIndicator(floor_t);
 
-void io_startMotor(direction_t);
+void io_startMotor();
 void io_stopMotor();
 int io_elevatorIsObstructed();
 int io_elevatorIsAtFloor();

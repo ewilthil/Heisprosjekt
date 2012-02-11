@@ -23,7 +23,9 @@ typedef enum {
 	FOURTH=3
 }floor_t;
 
+direction_t direction = UP;
 
+void debug_printDestinationMatrix();
 /*hovedfunksjoner*/
 void ctrl_initiateElevator();
 int ctrl_elevatorObstructed();
@@ -36,7 +38,7 @@ void ctrl_checkSensor();
 /*Støttefunksjoner*/
 void ctrl_setNewDirection();
 int ctrl_checkForOrdersInCurrentDirection();
-int ctrl_checkForOrdersInOppositDirection();
+int ctrl_checkForOrdersInOppositeDirection();
 int ctrl_checkLowerFloorsForOrders();
 int ctrl_checkUpperFloorsForOrders();
 void ctrl_clearDestinationMatrix();

@@ -3,15 +3,37 @@
 #include "elevator_sm.h"
 #include "elevator_ui.h"
 #include <stdio.h>
+//#include "avlusing.h"
+
 
 static floor_t floor;
-static direction_t direction;
-static int destinationMatrix[NUMBEROFBUTTONTYPES][NUMBEROFFLOORS]={
+//direction_t direction = UP; Deklareres i elevator_ctrl.h
+int destinationMatrix[NUMBEROFBUTTONTYPES][NUMBEROFFLOORS]={
                       /*1	2	3	4*/
 /*CALL_UP*/{		0,	0,	0,	0},
 /*CALL_DOWN*/{		0,	0,	0,	0},
 /*COMMAND*/{		0,	0,	0,	0}
 };
+
+void debug_printDestinationMatrix(){
+        int i,k;
+        printf("Floors:\t 1 \t 2 \t 3 \t 4 \t\n");
+        for(i=0;i<NUMBEROFBUTTONTYPES;i++){
+                if(i==0)
+                        printf("UP\t");
+                else if(i==1)
+                        printf("DOWN\t");
+                else if(i==2)
+                        printf("CMND\t");
+                else
+                        printf("Ukjent etasje. Erik har driti seg ut. Sjekk funksjonen..\n");
+                for(k=0;k<NUMBEROFFLOORS;k++){
+                        printf("%d\t",destinationMatrix[i][k]);
+                }
+                printf("\n");
+        }
+}
+
 
 void ctrl_initiateElevator(){
 	if(io_elevatorIsInFloor()){
@@ -31,7 +53,6 @@ void ctrl_initiateElevator(){
 void ctrl_checkSensor(){
 	if(io_elevatorIsInFloor()){
 		floor=io_getCurrentFloor();
-		printf("Etasje: %d\n",floor);
 		sm_handleEvent(FLOOR_REACHED);
 	}
 }	
@@ -77,7 +98,9 @@ void ctrl_handleEmergencyStop(){
 void ctrl_handleDestination(){
 	io_resetStopLight();
 	printf("Retning: %d\n",direction);
+	debug_printDestinationMatrix();
 	ctrl_setNewDirection();
+	io_startMotor();
 	/*
 	if(ctrl_checkOrderInCurrentDirection()){
 		printf("Motor burde startes\n");
@@ -91,7 +114,7 @@ void ctrl_handleDestination(){
 void ctrl_setNewDirection(){
 	if(ctrl_checkForOrdersInCurrentDirection()){
 		return;
-	}else if(ctrl_checkForOrdersInOppositDirection()){
+	}else if(ctrl_checkForOrdersInOppositeDirection()){
 		if(direction==UP)
 			direction=DOWN;
 		else
@@ -100,21 +123,24 @@ void ctrl_setNewDirection(){
 }
 
 int ctrl_checkForOrdersInCurrentDirection(){
-	int keepPreviousDirection=0;/*heisen går andre vei hvis ikke den får ordre i samme retning*/
-	if(direction==DOWN)
-		keepPreviousDirection=ctrl_checkLowerFloorsForOrders();
-	else
-		keepPreviousDirection=ctrl_checkUpperFloorsForOrders();
-			
-	return keepPreviousDirection;
+	int ordersInCurrentDirection;/*heisen går andre vei hvis ikke den får ordre i samme retning*/
+	if(direction==DOWN){
+		ordersInCurrentDirection=ctrl_checkLowerFloorsForOrders();
+	}
+	else{
+		ordersInCurrentDirection=ctrl_checkUpperFloorsForOrders();
+	}		
+	return ordersInCurrentDirection;
 }
-int ctrl_checkForOrdersInOppositDirection(){
-	int changeDirection=0;/*ĥeisen skal ikke endre retning dersom den ikke har ordre i andre retning*/
-	if(direction==DOWN)
-		changeDirection=ctrl_checkUpperFloorsForOrders();
-	else
-		changeDirection=ctrl_checkLowerFloorsForOrders();
-	return changeDirection;
+int ctrl_checkForOrdersInOppositeDirection(){
+	int ordersInOppositeDirection;/*heisen går andre vei hvis ikke den får ordre i samme retning*/
+        if(direction==DOWN){
+                ordersInOppositeDirection=ctrl_checkUpperFloorsForOrders();
+        }
+        else{
+                ordersInOppositeDirection=ctrl_checkLowerFloorsForOrders();
+        } 
+        return ordersInOppositeDirection;
 }
 int ctrl_checkLowerFloorsForOrders(){
 	int i,k;

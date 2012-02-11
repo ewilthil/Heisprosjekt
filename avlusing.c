@@ -1,4 +1,5 @@
 #include "avlusing.h"
+/*
 
 void debug_printDestinationMatrix(){
 	int i,k;
@@ -19,15 +20,15 @@ void debug_printDestinationMatrix(){
 	}
 }
 void debug_testDestinationMatrix(){
-	ctrl_addOrderToList(UP,FIRST);
-	ctrl_addOrderToList(DOWN,SECOND);
-	ctrl_addOrderToList(COMMAND,THIRD);
-	ctrl_addOrderToList(UP,FOURTH);
+	ctrl_addOrderToList(BUTTON_CALL_UP,FIRST);
+	ctrl_addOrderToList(BUTTON_CALL_DOWN,SECOND);
+	ctrl_addOrderToList(BUTTON_COMMAND,THIRD);
+	ctrl_addOrderToList(BUTTON_CALL_DOWN,FOURTH);
 	printf("Fasit:\n");
 	printf("Floors:\t 1 \t 2 \t 3 \t 4 \t\n");
-	printf("UP\t 	  1 \t 0 \t 0 \t 1 \t\n");
-	printf("DOWN\t	  0 \t 1 \t 0 \t 0 \t\n");
-	printf("CMND\t	  0 \t \ \t 1 \t 0 \t\n");
+	printf("UP\t 	  1 \t 0 \t 0 \t 0 \t\n");
+	printf("DOWN\t	  0 \t 1 \t 0 \t 1 \t\n");
+	printf("CMND\t	  0 \t 0 \t 1 \t 0 \t\n");
 	printf("Vårt resultat:\n");
 	debug_printDestinationMatrix();
-}
+}*/
