@@ -25,6 +25,7 @@ typedef enum {
 
 
 /*hovedfunksjoner*/
+void ctrl_initiateElevator();
 int ctrl_elevatorObstructed();
 int ctrl_floorHasOrder();
 void ctrl_handleStop();

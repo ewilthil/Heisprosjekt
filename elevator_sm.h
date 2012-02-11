@@ -1,13 +1,22 @@
-#ifndef ELEVATOR_FSM_H
-#define ELEVATOR_FSM_H
+#ifndef ELEVATOR_SM_H
+#define ELEVATOR_SM_H
 
 #define NUMBEROFSTATES 4
 #define NUMBEROFEVENTS 3
 
-enum event_t{NEW_DESTINATION, FLOOR_REACHED, STOP_PRESSED};
-enum state_t{EXECUTING_ORDER, TEMPORARY_STOP, IDLE, EMERGENCY_STOP};
+typedef enum{
+	NEW_DESTINATION, 
+	FLOOR_REACHED,
+	STOP_PRESSED
+}event_t;
+typedef enum{
+	EXECUTING_ORDER, 
+	TEMPORARY_STOP, 
+	IDLE, 
+	EMERGENCY_STOP
+}state_t;
 
-void handleEvent(enum event_t event);
+void sm_handleEvent(event_t event);
 
 #endif
 

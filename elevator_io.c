@@ -61,3 +61,9 @@ int io_elevatorIsObstructed(){
 int io_elevatorIsAtFloor(){
 	return elev_get_floor_sensor_signal();
 }
+int io_elevatorIsInFloor(){
+	return elev_get_floor_sensor_signal()+1;
+}
+int io_getCurrentFloor(){
+	return elev_get_floor_sensor_signal();
+}

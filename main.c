@@ -2,6 +2,8 @@
 // READ ELEV.H FOR INFORMATION ON HOW TO USE THE ELEVATOR FUNCTIONS.
 
 #include "elev.h"
+#include "elevator_ui.h"
+#include "elevator_ctrl.h"
 #include <stdio.h>
 
 
@@ -13,24 +15,14 @@ int main()
         return 1;
     }
     
-    printf("Press STOP button to stop elevator and exit program.\n");
 
-    elev_set_speed(300);
+	ctrl_initiateElevator();
       
     while (1) {
-        // Check if ground floor, if so, turn upwards.
-        if (elev_get_floor_sensor_signal() == 0)
-            elev_set_speed(300);
-
-        // Check if upper floor, if so, turn downwards.
-        else if (elev_get_floor_sensor_signal() == N_FLOORS-1)
-            elev_set_speed(-300);
-
-        // Check if stop button, if so, stop elevator and exit program.
-        if (elev_get_stop_signal()) {
-            elev_set_speed(0);
-            break;
-        }
+	ui_checkStop();
+	ui_checkButtons();
+	ctrl_checkSensor();
+    
     }
 
     return 0;
