@@ -1,14 +1,14 @@
-#include "elevator_IO.h"
+#include "elevator_io.h"
 
 
 void io_resetAllButtonLights(){
 	int floor;
 	for(floor=0;floor<N_FLOORS;floor++){
-		elev_set_button_lamp(BUTTON_COMMAND,floor,0)
+		elev_set_button_lamp(BUTTON_COMMAND,floor,0);
 		if(floor!=0)
-			elev_set_button_lamp(BUTTON_CALL_DOWN,floor,0)
+			elev_set_button_lamp(BUTTON_CALL_DOWN,floor,0);
 		if(floor<(N_FLOORS-1))
-			elev_set_button_lamp(BUTTON_CALL_UP,floor,0)
+			elev_set_button_lamp(BUTTON_CALL_UP,floor,0);
 	}
 }
 void io_resetStopLight(){
@@ -28,14 +28,8 @@ void io_closeDoor(){
 void io_setStopLight(){
 	elev_set_stop_lamp(1);
 }
-void io_setFloorCallLight(floor_t floor, direction_t direction){
-	if(direction==UP)
-		elev_set_button_lamp(BUTTON_CALL_UP,floor,1);
-	else if(direction==DOWN)
-		elev_set_button_lamp(BUTTON_CALL_DOWN,floor,1);
-}
-void io_setCommandLight(floor_t floor){
-	elev_set_button_lamp(BUTTON_COMMAND,floor,1);
+void io_setButtonLight(button_type_t button, floor_t floor){
+	elev_set_button_lamp(button,floor,1);
 }
 void io_setFloorIndicator(floor_t){
 	elev_set_floor_indicator(floor);

@@ -1,6 +1,5 @@
-#include "elevator_IO.h"
+#include "elevator_io.h"
 #include "elevator.h"
-
 static enum floor_t floor;
 static enum direction_t direction;
 static int destinationMatrix[NUMBEROFBUTTONTYPES][NUMBEROFFLOORS]={
@@ -35,7 +34,7 @@ er en del av elevator-klassen
 */ 
 void ctrl_addOrderToList(enum elev_button_type_t button, enum floor_t floor){
 	destinationMatrix[button][floor]=1;
-	elev_set_button_lamp(button,floor);
+	//elev_set_button_lamp(button,floor);
 }
 /*
 handleStop()
