@@ -2,7 +2,7 @@
 #include "elevator_ctrl.h"
 #include "elevator_sm.h"
 #include "elevator_ui.h"
-
+#include <stdio.h>
 
 static floor_t floor;
 static direction_t direction;
@@ -31,6 +31,7 @@ void ctrl_initiateElevator(){
 void ctrl_checkSensor(){
 	if(io_elevatorIsInFloor()){
 		floor=io_getCurrentFloor();
+		printf("Etasje: %d\n",floor);
 		sm_handleEvent(FLOOR_REACHED);
 	}
 }	
@@ -52,7 +53,8 @@ er en del av elevator-klassen
 */ 
 void ctrl_addOrderToList(elev_button_type_t button, floor_t floor){
 	destinationMatrix[button][floor]=1;
-	io_setButtonLight(button, floor);		
+	io_setButtonLight(button, floor);
+	sm_handleEvent(NEW_DESTINATION);		
 }
 /*
 handleStop()
@@ -81,7 +83,9 @@ void ctrl_handleEmergencyStop(){
 }	
 void ctrl_handleDestination(){
 	io_resetStopLight();
+	printf("Retning: %d\n",direction);
 	if(ctrl_checkOrderInThisDirection()){
+		printf("Motor burde startes\n");
 		io_startMotor(direction);
 	}else if(ctrl_checkOrderInOtherDirection()){
 		io_startMotor((-1)*direction);
@@ -93,7 +97,8 @@ int ctrl_checkOrderInThisDirection(){
 	if(direction==DOWN)
 		keepPreviousDirection=ctrl_checkLowerFloorsForOrders();
 	else
-		ctrl_checkUpperFloorsForOrders();
+		keepPreviousDirection=ctrl_checkUpperFloorsForOrders();
+			
 	return keepPreviousDirection;
 }
 int ctrl_checkOrderInOtherDirection(){
@@ -101,7 +106,7 @@ int ctrl_checkOrderInOtherDirection(){
 	if(direction==DOWN)
 		changeDirection=ctrl_checkUpperFloorsForOrders();
 	else
-		ctrl_checkLowerFloorsForOrders();
+		changeDirection=ctrl_checkLowerFloorsForOrders();
 	return changeDirection;
 }
 int ctrl_checkLowerFloorsForOrders(){

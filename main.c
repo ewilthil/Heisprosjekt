@@ -9,22 +9,21 @@
 
 int main()
 {
-    // Initialize hardware
-    if (!elev_init()) {
-        printf(__FILE__ ": Unable to initialize elevator hardware\n");
-        return 1;
-    }
-    
+    	// Initialize hardware
+   	if (!elev_init()) {
+        	printf(__FILE__ ": Unable to initialize elevator hardware\n");
+        	return 1;
+   	}
+    	
+	/*
+	ctrl_initiateElevator(); 
+    	while (1) {
+		ui_checkStop();
+		ui_checkButtons();
+		ctrl_checkSensor();
+       	}
+	*/
 
-	ctrl_initiateElevator();
-      
-    while (1) {
-	ui_checkStop();
-	ui_checkButtons();
-	ctrl_checkSensor();
-    
-    }
-
-    return 0;
+    	return 0;
 }
 

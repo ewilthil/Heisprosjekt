@@ -26,7 +26,6 @@ void sm_handleEvent(event_t event){
 			transition.action();
 		}
 		state = transition.nextState;
-		printf("%d",state);
 	}
 }
 
