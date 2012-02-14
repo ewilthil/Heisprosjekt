@@ -6,7 +6,7 @@
 //#include "avlusing.h"
 
 direction_t direction=UP;
-int floor;
+int floor=-1;
 int destinationMatrix[NUMBEROFBUTTONTYPES][NUMBEROFFLOORS]={
                       /*1	2	3	4*/
 /*CALL_UP*/{		0,	0,	0,	0},
@@ -66,7 +66,6 @@ int ctrl_floorHasOrder(){
 		floorHasOrder=destinationMatrix[BUTTON_CALL_UP][floor];
 	else if(direction==DOWN)
 		floorHasOrder=destinationMatrix[BUTTON_CALL_DOWN][floor];
-	printf("Potet: %d\n",floorHasOrder);
 	return floorHasOrder;	
 }
 int ctrl_elevatorObstructed(){
@@ -105,20 +104,28 @@ void ctrl_handleEmergencyStop(){
 }	
 void ctrl_handleDestination(){
 	io_resetStopLight();
-	
-	debug_printDestinationMatrix();
 	ctrl_setNewDirection();
 	io_startMotor();
 }
 void  ctrl_setNewDirection(){
-	if(direction==UP && ctrl_checkUpperFloorsForOrders())
+	debug_printDestinationMatrix();
+	printf("Direction: ");
+	if(direction==UP && ctrl_checkUpperFloorsForOrders()){
 		direction=UP;
-	else if(direction==UP && ctrl_checkLowerFloorsForOrders())
+		printf("Case 1: UP\n\n");
+	}
+	else if(direction==UP && ctrl_checkLowerFloorsForOrders()){
 		direction=DOWN;
-	else if(direction==DOWN && ctrl_checkLowerFloorsForOrders())
-		direction==DOWN;
-	else if(direction==DOWN && ctrl_checkUpperFloorsForOrders())
-		direction==UP;
+		printf("Case 2: DOWN\n\n");
+	}
+	else if(direction==DOWN && ctrl_checkLowerFloorsForOrders()){
+		direction=DOWN;
+		printf("Case 3: DOWN\n\n");
+	}
+	else if(direction==DOWN && ctrl_checkUpperFloorsForOrders()){
+		direction=UP;
+		printf("Case 4: UP\n\n");
+	}
 	else
 		printf("Feil med ordreliste eller noe...\n");		
 }
@@ -131,8 +138,10 @@ int ctrl_checkLowerFloorsForOrders(){
 		dir=0;
 	for(i=0;i<floor+dir;i++){
 		for(k=0;k<NUMBEROFBUTTONTYPES;k++){
-			if(destinationMatrix[i][k]==1)
-				return 1;
+			if(destinationMatrix[k][i]==1){
+				printf("button,floor: %d,%d = %d\n",k,i,destinationMatrix[k][i]);
+				//return 1;
+			}
 		}/* end k loop*/
 	}/*end i loop*/
 	return 0;
@@ -145,7 +154,7 @@ int ctrl_checkUpperFloorsForOrders(){
 		dir=0;
 	for(i=floor+dir;i<NUMBEROFFLOORS;i++){
 		for(k=0;k<NUMBEROFBUTTONTYPES;k++){
-			if(destinationMatrix[i][k]==1)
+			if(destinationMatrix[k][i]==1)
 				return 1;
 		}/*end k loop*/
 	}/*end i loop*/
@@ -153,9 +162,9 @@ int ctrl_checkUpperFloorsForOrders(){
 }
 void ctrl_clearDestinationMatrix(){
 	int i,k;
-	for(i=0;i<NUMBEROFBUTTONTYPES;i++){
-		for(k=0;k<NUMBEROFFLOORS;k++){
-			destinationMatrix[i][k]=0;
+	for(i=0;i<NUMBEROFFLOORS;i++){
+		for(k=0;k<NUMBEROFBUTTONTYPES;k++){
+			destinationMatrix[k][i]=0;
 		}
 	}
 }

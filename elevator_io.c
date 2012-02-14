@@ -49,7 +49,7 @@ void io_openDoor(){
 	elev_set_door_open_lamp(1);
 }
 void io_startMotor(){
-	elev_set_speed(300*direction);
+	elev_set_speed(100*direction);
 }
 void io_stopMotor(){
 	elev_set_speed(0);
