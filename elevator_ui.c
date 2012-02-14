@@ -10,7 +10,7 @@ void ui_checkStop(){
 
 void ui_checkButtons(){
 	elev_button_type_t buttonType;
-	floor_t floor;
+	int floor;
 	
 	buttonType = BUTTON_CALL_UP;
 	for(floor=0; floor<=2; floor++){
