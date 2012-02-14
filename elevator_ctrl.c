@@ -50,8 +50,10 @@ void ctrl_initiateElevator(){
 	}
 }
 void ctrl_checkSensor(){
-	floor=io_getCurrentFloor();
-	if(floor!=-1){
+	int newFloor=io_getCurrentFloor();
+	if(newFloor!=-1 && newFloor!=floor){
+		printf("ny etasje\n");
+		floor=newFloor;
 		sm_handleEvent(FLOOR_REACHED);
 	}
 }	
@@ -83,7 +85,7 @@ int ctrl_elevatorObstructed(){
 void ctrl_addOrderToList(elev_button_type_t button, int floor){
 	if(state != EMERGENCY_STOP || button == BUTTON_COMMAND){
 		destinationMatrix[button][floor]=1;
-		io_setButtonLight(button, floor);
+		io_setButtonLight(button, floor);		
 		sm_handleEvent(NEW_DESTINATION);
 	}
 }
@@ -97,7 +99,6 @@ void ctrl_handleStop(){
 	io_stopMotor();
 	io_openDoor();
 	ctrl_removeOrder();
-	ctrl_setLightsAtElevatorStop();
 	clock_t startTime=clock();
 	clock_t stopTime=clock();
 	while( ((stopTime-startTime)/CLOCKS_PER_SEC) < 3){
@@ -108,9 +109,14 @@ void ctrl_handleStop(){
 		stopTime=clock();
 	}
 	io_closeDoor();
-	if(!ctrl_orderListHasOrders()){	
+	int j = ctrl_orderListHasOrders();
+	if(ctrl_orderListHasOrders()){
+		printf("state: ");
+		sm_printState();	
+		printf("Dette bør gi EXE\n");
 		sm_handleEvent(NEW_DESTINATION);
 	}else{
+		printf("Dette bør gi IDLE\n");
 		sm_handleEvent(FLOOR_REACHED);
 	}
 }
@@ -121,6 +127,7 @@ void ctrl_handleEmergencyStop(){
 	ctrl_clearDestinationMatrix();
 }	
 void ctrl_handleDestination(){
+	printf("HandleDestination kalles\n");
 	io_resetStopLight();
 	ctrl_setNewDirection();
 	io_startMotor();
@@ -157,7 +164,7 @@ int ctrl_checkLowerFloorsForOrders(){
 	for(i=0;i<floor+dir;i++){
 		for(k=0;k<NUMBEROFBUTTONTYPES;k++){
 			if(destinationMatrix[k][i]==1){
-				printf("Lower: button,floor: %d,%d = %d\n",k,i,destinationMatrix[k][i]);
+				//printf("Lower,2,3: button,floor: %d,%d = %d\n",k,i,destinationMatrix[k][i]); //KAN FJERNES VED NESTE ANLEDING
 				return 1;
 			}
 		}/* end k loop*/
@@ -174,7 +181,7 @@ int ctrl_checkUpperFloorsForOrders(){
 	for(i=floor+dir;i<NUMBEROFFLOORS;i++){
 		for(k=0;k<NUMBEROFBUTTONTYPES;k++){
 			if(destinationMatrix[k][i]==1){
-				printf("Upper: button,floor: %d,%d = %d\n",k,i,destinationMatrix[k][i]);
+				//printf("Upper,1,4: button,floor: %d,%d = %d\n",k,i,destinationMatrix[k][i]); //KAN FJERNES VED NESTE ANLEDING
 				return 1;
 			}
 		}/*end k loop*/
@@ -201,7 +208,8 @@ void ctrl_setLightsAtElevatorStop(){
 void ctrl_removeOrder(){
 	destinationMatrix[BUTTON_COMMAND][floor]=0;
 	io_resetButtonLight(BUTTON_COMMAND,floor);
-	if(floor!=0 && direction==UP){
+	//NB: Det var originalt byttet om på 3 og 0, tror dette blir riktig, men det kan være noe jeg ikke har tenkt på
+	if(floor!=3 && direction==UP){
 		destinationMatrix[BUTTON_CALL_UP][floor]=0;
 		io_resetButtonLight(BUTTON_CALL_UP,floor);
 		if(!ctrl_checkUpperFloorsForOrders()){
@@ -209,7 +217,7 @@ void ctrl_removeOrder(){
 			io_resetButtonLight(BUTTON_CALL_DOWN,floor);
 		}
 	}
-	if(floor!=3 && direction==DOWN){
+	if(floor!=0 && direction==DOWN){
 		destinationMatrix[BUTTON_CALL_DOWN][floor]=0;
 		io_resetButtonLight(BUTTON_CALL_DOWN,floor);
 		if(!ctrl_checkLowerFloorsForOrders()){

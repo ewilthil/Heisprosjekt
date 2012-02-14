@@ -17,7 +17,7 @@ typedef enum{
 }state_t;
 
 void sm_handleEvent(event_t event);
-
+void sm_printState();
 #endif
 
 

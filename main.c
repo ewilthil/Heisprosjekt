@@ -17,11 +17,9 @@ int main()
     	
 	//debug_testDestinationMatrix();
 	
-	int o;
+
 	ctrl_initiateElevator();
     	while (1) {
-		//o=io_elevatorIsInFloor();
-		//printf("yey: %d\n",o);
 		ui_checkStop();
 		ui_checkButtons();
 		ctrl_checkSensor();
