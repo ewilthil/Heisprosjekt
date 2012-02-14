@@ -59,22 +59,33 @@ void ctrl_checkSensor(){
  * floorHasOrder() og noObstruction() er guards for FSM
  */
 int ctrl_floorHasOrder(){
-	int floorHasOrder = destinationMatrix[COMMAND][floor];
-	if(floorHasOrder)
-		return floorHasOrder;
-	if(direction==UP)
-		floorHasOrder=destinationMatrix[BUTTON_CALL_UP][floor];
-	else if(direction==DOWN)
-		floorHasOrder=destinationMatrix[BUTTON_CALL_DOWN][floor];
-	return floorHasOrder;	
+	if(destinationMatrix[COMMAND][floor])
+		return 1;
+	if(direction==UP){
+		if(destinationMatrix[BUTTON_CALL_UP][floor]){
+			return 1;
+		}else if(ctrl_checkUpperFloorsForOrders()){
+			return 0;
+		}
+	}
+	else if(direction==DOWN){
+		if(destinationMatrix[BUTTON_CALL_DOWN][floor]){
+			return 1;
+		}else if(ctrl_checkLowerFloorsForOrders()){
+			return 0;
+		}
+	}
+	return 0;
 }
 int ctrl_elevatorObstructed(){
 	return io_elevatorIsObstructed();
 }
 void ctrl_addOrderToList(elev_button_type_t button, int floor){
-	destinationMatrix[button][floor]=1;
-	io_setButtonLight(button, floor);
-	sm_handleEvent(NEW_DESTINATION);		
+	if(state != EMERGENCY_STOP || button == BUTTON_COMMAND){
+		destinationMatrix[button][floor]=1;
+		io_setButtonLight(button, floor);
+		sm_handleEvent(NEW_DESTINATION);
+	}
 }
 /*
  * handleStop()
@@ -84,17 +95,24 @@ void ctrl_addOrderToList(elev_button_type_t button, int floor){
  */
 void ctrl_handleStop(){
 	io_stopMotor();
+	io_openDoor();
+	ctrl_removeOrder();
 	ctrl_setLightsAtElevatorStop();
 	clock_t startTime=clock();
 	clock_t stopTime=clock();
 	while( ((stopTime-startTime)/CLOCKS_PER_SEC) < 3){
+		ui_checkStop();
 		ui_checkButtons();
 		if(ctrl_elevatorObstructed())
 			startTime=stopTime;
 		stopTime=clock();
 	}
-	io_closeDoor();	
-	sm_handleEvent(NEW_DESTINATION);
+	io_closeDoor();
+	if(!ctrl_orderListHasOrders()){	
+		sm_handleEvent(NEW_DESTINATION);
+	}else{
+		sm_handleEvent(FLOOR_REACHED);
+	}
 }
 void ctrl_handleEmergencyStop(){
 	io_setStopLight();
@@ -139,8 +157,8 @@ int ctrl_checkLowerFloorsForOrders(){
 	for(i=0;i<floor+dir;i++){
 		for(k=0;k<NUMBEROFBUTTONTYPES;k++){
 			if(destinationMatrix[k][i]==1){
-				printf("button,floor: %d,%d = %d\n",k,i,destinationMatrix[k][i]);
-				//return 1;
+				printf("Lower: button,floor: %d,%d = %d\n",k,i,destinationMatrix[k][i]);
+				return 1;
 			}
 		}/* end k loop*/
 	}/*end i loop*/
@@ -148,14 +166,17 @@ int ctrl_checkLowerFloorsForOrders(){
 }
 int ctrl_checkUpperFloorsForOrders(){
 	int i,k,dir;
+	
 	if(direction==UP)
 		dir=1;
 	else
 		dir=0;
 	for(i=floor+dir;i<NUMBEROFFLOORS;i++){
 		for(k=0;k<NUMBEROFBUTTONTYPES;k++){
-			if(destinationMatrix[k][i]==1)
+			if(destinationMatrix[k][i]==1){
+				printf("Upper: button,floor: %d,%d = %d\n",k,i,destinationMatrix[k][i]);
 				return 1;
+			}
 		}/*end k loop*/
 	}/*end i loop*/
 	return 0;
@@ -171,8 +192,40 @@ void ctrl_clearDestinationMatrix(){
 void ctrl_setLightsAtElevatorStop(){
 	io_openDoor();
 	io_resetButtonLight(BUTTON_COMMAND,floor);
-	if(floor!=0 && direction==DOWN)
+	if(floor!=0 && direction==DOWN){
 		io_resetButtonLight(BUTTON_CALL_DOWN,floor);
+	}
 	if(floor!=3&&direction==UP)
 		io_resetButtonLight(BUTTON_CALL_UP,floor);
+}
+void ctrl_removeOrder(){
+	destinationMatrix[BUTTON_COMMAND][floor]=0;
+	io_resetButtonLight(BUTTON_COMMAND,floor);
+	if(floor!=0 && direction==UP){
+		destinationMatrix[BUTTON_CALL_UP][floor]=0;
+		io_resetButtonLight(BUTTON_CALL_UP,floor);
+		if(!ctrl_checkUpperFloorsForOrders()){
+			destinationMatrix[BUTTON_CALL_DOWN][floor]=0;
+			io_resetButtonLight(BUTTON_CALL_DOWN,floor);
+		}
+	}
+	if(floor!=3 && direction==DOWN){
+		destinationMatrix[BUTTON_CALL_DOWN][floor]=0;
+		io_resetButtonLight(BUTTON_CALL_DOWN,floor);
+		if(!ctrl_checkLowerFloorsForOrders()){
+			destinationMatrix[BUTTON_CALL_UP][floor]=0;
+			io_resetButtonLight(BUTTON_CALL_UP,floor);
+		}
+	}
+}
+int ctrl_orderListHasOrders(){
+	int i,j;
+	for(i=0;i<NUMBEROFBUTTONTYPES;i++){
+		for(j=0;j<NUMBEROFFLOORS;j++){
+			if(destinationMatrix[i][j])
+				return 1;
+
+		}
+	}
+	return 0;
 }	

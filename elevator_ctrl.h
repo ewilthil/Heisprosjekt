@@ -3,7 +3,7 @@
 
 #include "elev.h"
 #include <time.h>
-
+#include "elevator_sm.h"
 
 #define NUMBEROFFLOORS 4 
 #define NUMBEROFBUTTONTYPES 3
@@ -22,7 +22,7 @@ typedef enum {
 	FOURTH=3
 }floor_t;
 */
-
+extern state_t state;
 
 //direction_t direction = UP;
 
@@ -44,8 +44,8 @@ int ctrl_checkLowerFloorsForOrders();
 int ctrl_checkUpperFloorsForOrders();
 void ctrl_clearDestinationMatrix();
 void ctrl_setLightsAtElevatorStop();
-
-
+int ctrl_orderListHasOrders();
+void ctrl_removeOrder();
 
 
 #endif //ELEVATOR_CTRL_H
