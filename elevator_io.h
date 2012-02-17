@@ -5,7 +5,7 @@
 #include "elevator_ctrl.h"
 
 extern direction_t direction;
-
+extern int doorClosed;
 #define buttonType_t elev_button_type_t
 void io_resetStopLight();
 void io_closeDoor();
@@ -21,6 +21,7 @@ void io_setFloorIndicator(int);
 
 void io_startMotor();
 void io_stopMotor();
+void io_stopMotorEmergency();
 int io_elevatorIsObstructed();
 int io_elevatorIsInFloor();
 int io_getCurrentFloor();

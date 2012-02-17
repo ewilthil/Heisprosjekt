@@ -1,5 +1,6 @@
 #include "elevator_io.h"
 #include "elevator_ctrl.h"
+#include <unistd.h>
 
 void io_resetAllButtonLights(){
 	int floor;
@@ -23,6 +24,7 @@ void io_resetFloorLightsOnTemporaryStop(int floor){
 }
 void io_closeDoor(){
 	elev_set_door_open_lamp(0);
+	doorClosed=1;
 }
 void io_resetButtonLight(buttonType_t button, int floor){
 	elev_set_button_lamp(button,floor,0);
@@ -47,11 +49,17 @@ void io_setFloorIndicator(int floor){
 }
 void io_openDoor(){
 	elev_set_door_open_lamp(1);
+	doorClosed=0;
 }
 void io_startMotor(){
-	elev_set_speed(100*direction);
+	elev_set_speed(300*direction);
 }
 void io_stopMotor(){
+	elev_set_speed(-300*direction);
+	usleep(6000);
+	elev_set_speed(0);
+}
+void io_stopMotorEmergency(){
 	elev_set_speed(0);
 }
 int io_elevatorIsObstructed(){
@@ -64,3 +72,4 @@ int io_elevatorIsInFloor(){
 int io_getCurrentFloor(){
 	return elev_get_floor_sensor_signal();
 }
+

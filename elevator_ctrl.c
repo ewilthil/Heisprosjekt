@@ -7,6 +7,7 @@
 
 direction_t direction=UP;
 //TODO: Antar floor også er standardfunksjon, bytt navn
+int doorClosed=1;
 int floor=-1;
 int destinationMatrix[NUMBEROFBUTTONTYPES][NUMBEROFFLOORS]={
                       /*1	2	3	4*/
@@ -54,6 +55,7 @@ void ctrl_checkSensor(){
 	int newFloor=io_getCurrentFloor();
 	if(newFloor!=-1 && newFloor!=floor){
 		floor=newFloor;
+		io_setFloorIndicator(floor);
 		sm_handleEvent(FLOOR_REACHED);
 	}
 }	
@@ -81,16 +83,21 @@ int ctrl_floorHasOrder(){
 	}
 	return 0;
 }
-int ctrl_elevatorObstructed(){
-	return io_elevatorIsObstructed();
+int ctrl_doorClosed(){
+	return (doorClosed);
 }
-void ctrl_addOrderToList(elev_button_type_t button, int floor){
-	if(state != EMERGENCY_STOP || button == BUTTON_COMMAND){
-		destinationMatrix[button][floor]=1;
-		io_setButtonLight(button, floor);		
+void ctrl_addOrderToList(elev_button_type_t button, int floorToAdd){
+	if((state != EMERGENCY_STOP || button == BUTTON_COMMAND) &&  io_getCurrentFloor() != floorToAdd){ 
+		destinationMatrix[button][floorToAdd]=1;
+		io_setButtonLight(button, floorToAdd);		
 		sm_handleEvent(NEW_DESTINATION);
 	}
 }
+/*
+int ctrl_addOrderToListCondition(elev_button_type_t button, int floorToAdd){
+	
+
+}*/
 /*
  * handleStop()
  * handleEmergencyStop()
@@ -106,7 +113,7 @@ void ctrl_handleStop(){
 	while( ((stopTime-startTime)/CLOCKS_PER_SEC) < 3){
 		ui_checkStop();
 		ui_checkButtons();
-		if(ctrl_elevatorObstructed())
+		if(io_elevatorIsObstructed())
 			startTime=stopTime;
 		stopTime=clock();
 	}
@@ -120,7 +127,7 @@ void ctrl_handleStop(){
 }
 void ctrl_handleEmergencyStop(){
 	io_setStopLight();
-	io_stopMotor();
+	io_stopMotorEmergency();
 	io_resetAllButtonLights();
 	ctrl_clearDestinationMatrix();
 }	

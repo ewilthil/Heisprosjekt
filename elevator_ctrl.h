@@ -29,7 +29,7 @@ extern state_t state;
 void debug_printDestinationMatrix();
 /*hovedfunksjoner*/
 void ctrl_initiateElevator();
-int ctrl_elevatorObstructed();
+int ctrl_doorClosed();
 int ctrl_floorHasOrder();
 void ctrl_handleStop();
 void ctrl_handleEmergencyStop();
