@@ -46,6 +46,6 @@ void ctrl_clearDestinationMatrix();
 void ctrl_setLightsAtElevatorStop();
 int ctrl_orderListHasOrders();
 void ctrl_removeOrder();
-
+int ctrl_noObstruction();
 
 #endif //ELEVATOR_CTRL_H

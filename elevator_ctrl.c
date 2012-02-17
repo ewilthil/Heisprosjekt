@@ -241,4 +241,11 @@ int ctrl_orderListHasOrders(){
 		}
 	}
 	return 0;
-}	
+}
+int ctrl_noObstruction(){
+	if(doorClosed){	
+		return 1;
+	}
+	return !io_elevatorIsObstructed();
+}
+	
