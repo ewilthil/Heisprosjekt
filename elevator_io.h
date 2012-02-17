@@ -10,7 +10,7 @@ extern direction_t direction;
 void io_resetStopLight();
 void io_closeDoor();
 void io_resetAllButtonLights();
-void io_resetFloorLightsOnTemporaryStop(int, direction_t);
+void io_resetFloorLightsOnTemporaryStop(int);
 void io_resetButtonLight(buttonType_t,int);
 void io_setStopLight();
 void io_openDoor();

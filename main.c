@@ -17,7 +17,6 @@ int main()
     	
 	//debug_testDestinationMatrix();
 	
-	printf("hei på deg\n");
 	ctrl_initiateElevator();
     	while (1) {
 		ui_checkStop();

@@ -6,6 +6,7 @@
 //#include "avlusing.h"
 
 direction_t direction=UP;
+//TODO: Antar floor også er standardfunksjon, bytt navn
 int floor=-1;
 int destinationMatrix[NUMBEROFBUTTONTYPES][NUMBEROFFLOORS]={
                       /*1	2	3	4*/
@@ -52,7 +53,6 @@ void ctrl_initiateElevator(){
 void ctrl_checkSensor(){
 	int newFloor=io_getCurrentFloor();
 	if(newFloor!=-1 && newFloor!=floor){
-		printf("ny etasje\n");
 		floor=newFloor;
 		sm_handleEvent(FLOOR_REACHED);
 	}
@@ -68,14 +68,16 @@ int ctrl_floorHasOrder(){
 			return 1;
 		}else if(ctrl_checkUpperFloorsForOrders()){
 			return 0;
-		}
+		}else
+			return 1;
 	}
 	else if(direction==DOWN){
 		if(destinationMatrix[BUTTON_CALL_DOWN][floor]){
 			return 1;
 		}else if(ctrl_checkLowerFloorsForOrders()){
 			return 0;
-		}
+		}else
+			return 1;
 	}
 	return 0;
 }
@@ -109,14 +111,10 @@ void ctrl_handleStop(){
 		stopTime=clock();
 	}
 	io_closeDoor();
-	int j = ctrl_orderListHasOrders();
 	if(ctrl_orderListHasOrders()){
-		printf("state: ");
 		sm_printState();	
-		printf("Dette bør gi EXE\n");
 		sm_handleEvent(NEW_DESTINATION);
 	}else{
-		printf("Dette bør gi IDLE\n");
 		sm_handleEvent(FLOOR_REACHED);
 	}
 }
@@ -127,29 +125,23 @@ void ctrl_handleEmergencyStop(){
 	ctrl_clearDestinationMatrix();
 }	
 void ctrl_handleDestination(){
-	printf("HandleDestination kalles\n");
 	io_resetStopLight();
 	ctrl_setNewDirection();
 	io_startMotor();
 }
 void  ctrl_setNewDirection(){
 	debug_printDestinationMatrix();
-	printf("Direction: ");
 	if(direction==UP && ctrl_checkUpperFloorsForOrders()){
 		direction=UP;
-		printf("Case 1: UP\n\n");
 	}
 	else if(direction==UP && ctrl_checkLowerFloorsForOrders()){
 		direction=DOWN;
-		printf("Case 2: DOWN\n\n");
 	}
 	else if(direction==DOWN && ctrl_checkLowerFloorsForOrders()){
 		direction=DOWN;
-		printf("Case 3: DOWN\n\n");
 	}
 	else if(direction==DOWN && ctrl_checkUpperFloorsForOrders()){
 		direction=UP;
-		printf("Case 4: UP\n\n");
 	}
 	else
 		printf("Feil med ordreliste eller noe...\n");		
@@ -164,7 +156,6 @@ int ctrl_checkLowerFloorsForOrders(){
 	for(i=0;i<floor+dir;i++){
 		for(k=0;k<NUMBEROFBUTTONTYPES;k++){
 			if(destinationMatrix[k][i]==1){
-				//printf("Lower,2,3: button,floor: %d,%d = %d\n",k,i,destinationMatrix[k][i]); //KAN FJERNES VED NESTE ANLEDING
 				return 1;
 			}
 		}/* end k loop*/
@@ -181,7 +172,6 @@ int ctrl_checkUpperFloorsForOrders(){
 	for(i=floor+dir;i<NUMBEROFFLOORS;i++){
 		for(k=0;k<NUMBEROFBUTTONTYPES;k++){
 			if(destinationMatrix[k][i]==1){
-				//printf("Upper,1,4: button,floor: %d,%d = %d\n",k,i,destinationMatrix[k][i]); //KAN FJERNES VED NESTE ANLEDING
 				return 1;
 			}
 		}/*end k loop*/
@@ -217,13 +207,21 @@ void ctrl_removeOrder(){
 			io_resetButtonLight(BUTTON_CALL_DOWN,floor);
 		}
 	}
-	if(floor!=0 && direction==DOWN){
+	if(floor!= 0 && direction==DOWN){
 		destinationMatrix[BUTTON_CALL_DOWN][floor]=0;
 		io_resetButtonLight(BUTTON_CALL_DOWN,floor);
 		if(!ctrl_checkLowerFloorsForOrders()){
 			destinationMatrix[BUTTON_CALL_UP][floor]=0;
 			io_resetButtonLight(BUTTON_CALL_UP,floor);
 		}
+	}
+	if(floor==0){
+		destinationMatrix[BUTTON_CALL_UP][floor]=0;
+		io_resetButtonLight(BUTTON_CALL_UP,floor);
+	}
+	if(floor==3){
+		destinationMatrix[BUTTON_CALL_DOWN][floor]=0;
+		io_resetButtonLight(BUTTON_CALL_DOWN,floor);
 	}
 }
 int ctrl_orderListHasOrders(){

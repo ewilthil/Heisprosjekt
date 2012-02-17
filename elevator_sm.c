@@ -29,8 +29,6 @@ void sm_handleEvent(event_t event){
 			transition.action();
 		}
 		//state = transition.nextState;
-		//VIKTIG: Oppdaterer ikke state før dør er lukket og ny event generert	
-		sm_printState();
 	}
 }
 

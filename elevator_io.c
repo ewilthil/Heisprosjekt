@@ -14,7 +14,7 @@ void io_resetAllButtonLights(){
 void io_resetStopLight(){
 	elev_set_stop_lamp(0);
 }
-void io_resetFloorLightsOnTemporaryStop(int floor, direction_t direction){
+void io_resetFloorLightsOnTemporaryStop(int floor){
 	elev_set_button_lamp(BUTTON_COMMAND,floor,0);
 	if(direction==UP)
 		elev_set_button_lamp(BUTTON_CALL_UP,floor,0);
