@@ -56,7 +56,7 @@ void io_startMotor(){
 }
 void io_stopMotor(){
 	elev_set_speed(-300*direction);
-	usleep(6000);
+//	usleep(300);
 	elev_set_speed(0);
 }
 void io_stopMotorEmergency(){

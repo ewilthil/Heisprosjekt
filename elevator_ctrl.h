@@ -4,6 +4,7 @@
 #include "elev.h"
 #include <time.h>
 #include "elevator_sm.h"
+#include "elevator_ui.h"
 
 #define NUMBEROFFLOORS 4 
 #define NUMBEROFBUTTONTYPES 3
@@ -14,17 +15,10 @@ typedef enum {
 	UP=1, 
 	DOWN=-1
 }direction_t;
-/*Skal slettes ved første anledning
-typedef enum {
-	FIRST=0,
-	SECOND=1,
-	THIRD=2,
-	FOURTH=3
-}floor_t;
-*/
-extern state_t state;
 
-//direction_t direction = UP;
+extern state_t state;
+extern elev_button_type_t lastButtonTypeOrder;
+extern int lastFloorOrder;
 
 void debug_printDestinationMatrix();
 /*hovedfunksjoner*/
@@ -34,8 +28,11 @@ int ctrl_floorHasOrder();
 void ctrl_handleStop();
 void ctrl_handleEmergencyStop();
 void ctrl_handleDestination();
-void ctrl_addOrderToList( elev_button_type_t,  int);
+void ctrl_goToOrder();
+void ctrl_handleDestinationFromIdle();
+void ctrl_addOrderToList();
 void ctrl_checkSensor();
+int ctrl_orderAtCurrentFloor();
 /*Støttefunksjoner*/
 void ctrl_setNewDirection();
 int ctrl_checkForOrdersInCurrentDirection();
@@ -47,5 +44,7 @@ void ctrl_setLightsAtElevatorStop();
 int ctrl_orderListHasOrders();
 void ctrl_removeOrder();
 int ctrl_noObstruction();
+int ctrl_orderTypeCommand();
+int ctrl_orderNotInCurrentFloor();
 
 #endif //ELEVATOR_CTRL_H

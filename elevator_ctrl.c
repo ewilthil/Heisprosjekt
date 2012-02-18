@@ -86,12 +86,24 @@ int ctrl_floorHasOrder(){
 int ctrl_doorClosed(){
 	return (doorClosed);
 }
-void ctrl_addOrderToList(elev_button_type_t button, int floorToAdd){
-	if((state != EMERGENCY_STOP || button == BUTTON_COMMAND) &&  io_getCurrentFloor() != floorToAdd){ 
-		destinationMatrix[button][floorToAdd]=1;
-		io_setButtonLight(button, floorToAdd);		
-		sm_handleEvent(NEW_DESTINATION);
+int ctrl_orderTypeCommand(){
+	return (lastButtonTypeOrder == BUTTON_COMMAND);	
+}
+int ctrl_orderNotInCurrentFloor(){
+	return (lastFloorOrder != floor);
+}
+int ctrl_orderAtCurrentFloor(){
+	int i;
+	for(i=0;i<NUMBEROFBUTTONTYPES;i++){
+		if(destinationMatrix[i][floor])
+			return 1;
 	}
+	return 0;
+}
+void ctrl_addOrderToList(){
+	destinationMatrix[lastButtonTypeOrder][lastFloorOrder]=1;
+	io_setButtonLight(lastButtonTypeOrder, lastFloorOrder);		
+	sm_handleEvent(NEW_DESTINATION);
 }
 /*
 int ctrl_addOrderToListCondition(elev_button_type_t button, int floorToAdd){
@@ -136,8 +148,21 @@ void ctrl_handleDestination(){
 	ctrl_setNewDirection();
 	io_startMotor();
 }
+void ctrl_handleDestinationFromIdle(){
+	if(ctrl_orderAtCurrentFloor()){
+		printf("potet\n");
+		sm_handleEvent(FLOOR_REACHED);
+	}
+	else{
+		ctrl_setNewDirection();
+		io_startMotor();
+	}
+}
+void ctrl_goToOrder(){
+	io_resetStopLight();
+	
+}
 void  ctrl_setNewDirection(){
-	debug_printDestinationMatrix();
 	if(direction==UP && ctrl_checkUpperFloorsForOrders()){
 		direction=UP;
 	}
