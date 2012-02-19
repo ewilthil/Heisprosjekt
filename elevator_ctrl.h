@@ -19,7 +19,9 @@ typedef enum {
 extern state_t state;
 extern elev_button_type_t lastButtonTypeOrder;
 extern int lastFloorOrder;
+extern int motorIsRunning;
 
+void potet(char[]);
 void debug_printDestinationMatrix();
 /*hovedfunksjoner*/
 void ctrl_initiateElevator();
@@ -30,6 +32,7 @@ void ctrl_handleEmergencyStop();
 void ctrl_handleDestination();
 void ctrl_goToOrder();
 void ctrl_handleDestinationFromIdle();
+void ctrl_handleDestinationFromEM();
 void ctrl_addOrderToList();
 void ctrl_checkSensor();
 int ctrl_orderAtCurrentFloor();

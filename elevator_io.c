@@ -2,6 +2,8 @@
 #include "elevator_ctrl.h"
 #include <unistd.h>
 
+int motorIsRunning;
+
 void io_resetAllButtonLights(){
 	int floor;
 	for(floor=0;floor<N_FLOORS;floor++){
@@ -52,14 +54,19 @@ void io_openDoor(){
 	doorClosed=0;
 }
 void io_startMotor(){
+	motorIsRunning=1;
 	elev_set_speed(300*direction);
 }
 void io_stopMotor(){
-	elev_set_speed(-300*direction);
-//	usleep(300);
+	if(motorIsRunning){
+		elev_set_speed(-300*direction);
+		usleep(6000);
+	}
+	motorIsRunning=0;
 	elev_set_speed(0);
 }
 void io_stopMotorEmergency(){
+	motorIsRunning=0;
 	elev_set_speed(0);
 }
 int io_elevatorIsObstructed(){

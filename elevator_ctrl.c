@@ -9,13 +9,16 @@ direction_t direction=UP;
 //TODO: Antar floor også er standardfunksjon, bytt navn
 int doorClosed=1;
 int floor=-1;
+int elevatorHasBeenObstructed=0;
 int destinationMatrix[NUMBEROFBUTTONTYPES][NUMBEROFFLOORS]={
                       /*1	2	3	4*/
 /*CALL_UP*/{		0,	0,	0,	0},
 /*CALL_DOWN*/{		0,	0,	0,	0},
 /*COMMAND*/{		0,	0,	0,	0}
 };
-
+void potet(char str[]){
+	printf("Potet: %s!\n",str);
+}
 void debug_printDestinationMatrix(){
         int i,k;
         printf("Floors:\t 1 \t 2 \t 3 \t 4 \t\n");
@@ -53,7 +56,8 @@ void ctrl_initiateElevator(){
 }
 void ctrl_checkSensor(){
 	int newFloor=io_getCurrentFloor();
-	if(newFloor!=-1 && newFloor!=floor){
+	if(newFloor!=-1){
+		potet("i etasje");
 		floor=newFloor;
 		io_setFloorIndicator(floor);
 		sm_handleEvent(FLOOR_REACHED);
@@ -63,8 +67,9 @@ void ctrl_checkSensor(){
  * floorHasOrder() og noObstruction() er guards for FSM
  */
 int ctrl_floorHasOrder(){
-	if(destinationMatrix[COMMAND][floor])
+	if(destinationMatrix[COMMAND][floor]){
 		return 1;
+	}
 	if(direction==UP){
 		if(destinationMatrix[BUTTON_CALL_UP][floor]){
 			return 1;
@@ -125,13 +130,17 @@ void ctrl_handleStop(){
 	while( ((stopTime-startTime)/CLOCKS_PER_SEC) < 3){
 		ui_checkStop();
 		ui_checkButtons();
+		ui_checkObstruction();
+		if(motorIsRunning)
+			return;
 		if(io_elevatorIsObstructed())
 			startTime=stopTime;
 		stopTime=clock();
 	}
+	if(state==EMERGENCY_STOP)
+		return;
 	io_closeDoor();
 	if(ctrl_orderListHasOrders()){
-		sm_printState();	
 		sm_handleEvent(NEW_DESTINATION);
 	}else{
 		sm_handleEvent(FLOOR_REACHED);
@@ -144,13 +153,22 @@ void ctrl_handleEmergencyStop(){
 	ctrl_clearDestinationMatrix();
 }	
 void ctrl_handleDestination(){
-	io_resetStopLight();
 	ctrl_setNewDirection();
 	io_startMotor();
 }
 void ctrl_handleDestinationFromIdle(){
 	if(ctrl_orderAtCurrentFloor()){
-		printf("potet\n");
+		sm_handleEvent(FLOOR_REACHED);
+	}
+	else{
+		ctrl_setNewDirection();
+		io_startMotor();
+	}
+}
+void ctrl_handleDestinationFromEM(){
+	io_closeDoor();
+	io_resetStopLight();
+	if(ctrl_orderAtCurrentFloor() && io_elevatorIsInFloor()){
 		sm_handleEvent(FLOOR_REACHED);
 	}
 	else{
@@ -231,7 +249,7 @@ void ctrl_removeOrder(){
 	destinationMatrix[BUTTON_COMMAND][floor]=0;
 	io_resetButtonLight(BUTTON_COMMAND,floor);
 	//NB: Det var originalt byttet om på 3 og 0, tror dette blir riktig, men det kan være noe jeg ikke har tenkt på
-	if(floor!=3 && direction==UP){
+	if(floor!=3 && floor!=0 && direction==UP){
 		destinationMatrix[BUTTON_CALL_UP][floor]=0;
 		io_resetButtonLight(BUTTON_CALL_UP,floor);
 		if(!ctrl_checkUpperFloorsForOrders()){
@@ -239,7 +257,7 @@ void ctrl_removeOrder(){
 			io_resetButtonLight(BUTTON_CALL_DOWN,floor);
 		}
 	}
-	if(floor!= 0 && direction==DOWN){
+	if(floor!=0 && floor!=3 && direction==DOWN){
 		destinationMatrix[BUTTON_CALL_DOWN][floor]=0;
 		io_resetButtonLight(BUTTON_CALL_DOWN,floor);
 		if(!ctrl_checkLowerFloorsForOrders()){
@@ -268,9 +286,19 @@ int ctrl_orderListHasOrders(){
 	return 0;
 }
 int ctrl_noObstruction(){
-	if(doorClosed){	
+	
+	if(doorClosed){
+		elevatorHasBeenObstructed=0;
 		return 1;
 	}
-	return !io_elevatorIsObstructed();
+	else if(io_elevatorIsObstructed()){
+		elevatorHasBeenObstructed=1;
+		return 0;
+	}
+	else{
+		elevatorHasBeenObstructed=0;
+		return 1;
+		
+	}
 }
 	

@@ -1,3 +1,4 @@
 Liste med kjente bugs
--Heis i 2., EM-stop, CMD 2 => heis går til 3. etg
+-Etg 2, CMD 2 => Heis gjør lite hopp, trolig pga at stopElevator kalles
+-EM med dør åpen, obstruksjon, CMD => ingenting skjer
 

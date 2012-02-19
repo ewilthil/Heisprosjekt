@@ -42,3 +42,7 @@ void ui_checkButtons(){
 		}
 	}
 }
+void ui_checkObstruction(){
+	if(elevatorHasBeenObstructed)
+		sm_handleEvent(NEW_DESTINATION);
+}

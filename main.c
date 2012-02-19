@@ -22,6 +22,7 @@ int main()
 		ui_checkStop();
 		ui_checkButtons();
 		ctrl_checkSensor();
+		ui_checkObstruction();
        	}
 	
 

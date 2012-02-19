@@ -6,8 +6,10 @@
 #include "elevator_ctrl.h"
 #include "elev.h"
 
+extern int elevatorHasBeenObstructed;
+
 void ui_checkStop();
 void ui_checkButtons();
-
+void ui_checkObstruction();
 
 #endif 
