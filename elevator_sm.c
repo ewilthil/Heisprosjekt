@@ -19,6 +19,9 @@ struct state_action_pair_t stateTable[NUMBEROFSTATES][NUMBEROFEVENTS] = {
 
 //TODO:Det bør bære en guard på New_Des->Temp, hvis ikke får man overgang på første addOrderToList!!!!
 
+state_t sm_getState(){
+	return state;
+}
 void sm_handleEvent(event_t event){
 	struct state_action_pair_t transition = stateTable[state][event];
 	if(transition.guard == NULL || transition.guard()){
@@ -29,7 +32,6 @@ void sm_handleEvent(event_t event){
 		//state = transition.nextState;
 	}
 }
-
 void sm_printState(){
 	switch(state){
 		case IDLE: printf("IDLE\n"); break;

@@ -18,14 +18,11 @@ typedef enum {
 	DOWN=-1
 }direction_t;
 
-extern state_t state;
-extern elev_button_type_t lastButtonTypeOrder;
-extern int lastFloorOrder;
-extern int motorIsRunning;
-
 void potet(char[]);
 void debug_printDestinationMatrix();
 void ctrl_initiateElevator();
+/*get*/
+direction_t ctrl_getDirection();
 /*Actions*/
 void ctrl_handleStop();
 void ctrl_handleEmergencyStop();
@@ -39,12 +36,11 @@ int ctrl_orderNotInCurrentFloor();
 int ctrl_noObstruction();
 int ctrl_floorHasOrder();
 int ctrl_doorClosed();
-/*hovedfunksjoner*/
-//void ctrl_goToOrder();
+/*Lyttefunksjon*/
 void ctrl_checkSensor();
-int ctrl_orderAtCurrentFloor();
 /*Støttefunksjoner*/
 void ctrl_setNewDirection();
+int ctrl_orderAtCurrentFloor();
 int ctrl_checkLowerFloorsForOrders();
 int ctrl_checkUpperFloorsForOrders();
 void ctrl_clearDestinationMatrix();

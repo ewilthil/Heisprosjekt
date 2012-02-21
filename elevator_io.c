@@ -2,6 +2,9 @@
 
 int motorIsRunning;
 
+int io_motorIsRunning(){
+	return motorIsRunning;
+}
 void io_resetAllButtonLights(){
 	int floor;
 	for(floor=0;floor<N_FLOORS;floor++){
@@ -16,6 +19,7 @@ void io_resetStopLight(){
 	elev_set_stop_lamp(0);
 }
 void io_resetFloorLightsOnTemporaryStop(int floor){
+	direction_t direction=ctrl_getDirection();
 	elev_set_button_lamp(BUTTON_COMMAND,floor,0);
 	if(direction==UP)
 		elev_set_button_lamp(BUTTON_CALL_UP,floor,0);
@@ -52,10 +56,12 @@ void io_openDoor(){
 	doorClosed=0;
 }
 void io_startMotor(){
+	direction_t direction = ctrl_getDirection();
 	motorIsRunning=1;
 	elev_set_speed(300*direction);
 }
 void io_stopMotor(){
+	direction_t direction=ctrl_getDirection();
 	if(motorIsRunning){
 		elev_set_speed(-300*direction);
 		usleep(6000);

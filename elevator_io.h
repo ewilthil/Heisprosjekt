@@ -5,9 +5,11 @@
 #include "elevator_ctrl.h"
 #include <unistd.h>
 
-extern direction_t direction;
+//extern direction_t direction;
 extern int doorClosed;
 #define buttonType_t elev_button_type_t
+
+int io_motorIsRunning();
 void io_resetStopLight();
 void io_closeDoor();
 void io_resetAllButtonLights();

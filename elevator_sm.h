@@ -21,6 +21,7 @@ typedef enum{
 	EMERGENCY_STOP
 }state_t;
 
+state_t sm_getState();
 void sm_handleEvent(event_t event);
 void sm_printState();
 #endif
