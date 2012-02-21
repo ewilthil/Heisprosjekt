@@ -5,12 +5,11 @@
 #include "elevator_sm.h"
 #include "elevator_ctrl.h"
 #include "elev.h"
-
+#define buttonType_t elev_button_type_t
 typedef struct{
-	elev_button_type_t button;
+	buttonType_t button;
 	int floor;
 }order_t;
-extern int elevatorHasBeenObstructed;
 
 order_t ui_lastOrder();
 void ui_checkStop();

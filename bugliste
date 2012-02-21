@@ -1,4 +1,5 @@
 Liste med kjente bugs
 -Etg 2, CMD 2 => Heis gjør lite hopp, trolig pga at stopElevator kalles
 -EM med dør åpen, obstruksjon, CMD => ingenting skjer
-
+ui.h: elev_button_type_t != buttonType_t (selv om den er definert i io.h) Midlertidig fix: definere lokalt
+TODO: sjekk konsekvent bruk av buttonType_t 
