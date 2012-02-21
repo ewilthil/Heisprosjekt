@@ -1,6 +1,4 @@
 #include "elevator_io.h"
-#include "elevator_ctrl.h"
-#include <unistd.h>
 
 int motorIsRunning;
 

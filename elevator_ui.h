@@ -1,6 +1,6 @@
 #ifndef ELEVATOR_UI_H
 #define ELEVATOR_UI_H
-
+//TODO: bytt fra elev til io
 //#include "elevator_io.h"
 #include "elevator_sm.h"
 #include "elevator_ctrl.h"

@@ -3,6 +3,7 @@
 
 #include "elev.h"
 #include "elevator_ctrl.h"
+#include <unistd.h>
 
 extern direction_t direction;
 extern int doorClosed;

@@ -1,6 +1,10 @@
 #ifndef ELEVATOR_SM_H
 #define ELEVATOR_SM_H
 
+//TODO: stdio.h skal bort i endelig versjon
+#include "elevator_ctrl.h"
+#include <stdio.h>
+
 #define NUMBEROFSTATES 4
 #define NUMBEROFEVENTS 4
 

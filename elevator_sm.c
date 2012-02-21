@@ -1,6 +1,4 @@
 #include "elevator_sm.h"
-#include "elevator_ctrl.h"
-#include <stdio.h>
 
 state_t state = IDLE;
 

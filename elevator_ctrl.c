@@ -1,9 +1,4 @@
-#include "elevator_io.h"
 #include "elevator_ctrl.h"
-#include "elevator_sm.h"
-#include "elevator_ui.h"
-#include <stdio.h>
-//#include "avlusing.h"
 
 direction_t direction=UP;
 //TODO: Antar floor også er standardfunksjon, bytt navn
@@ -57,7 +52,6 @@ void ctrl_initiateElevator(){
 void ctrl_checkSensor(){
 	int newFloor=io_getCurrentFloor();
 	if(newFloor!=-1){
-		potet("i etasje");
 		floor=newFloor;
 		io_setFloorIndicator(floor);
 		sm_handleEvent(FLOOR_REACHED);
@@ -110,11 +104,6 @@ void ctrl_addOrderToList(){
 	io_setButtonLight(lastButtonTypeOrder, lastFloorOrder);		
 	sm_handleEvent(NEW_DESTINATION);
 }
-/*
-int ctrl_addOrderToListCondition(elev_button_type_t button, int floorToAdd){
-	
-
-}*/
 /*
  * handleStop()
  * handleEmergencyStop()
@@ -176,10 +165,11 @@ void ctrl_handleDestinationFromEM(){
 		io_startMotor();
 	}
 }
+/*
 void ctrl_goToOrder(){
 	io_resetStopLight();
 	
-}
+}*/
 void  ctrl_setNewDirection(){
 	if(direction==UP && ctrl_checkUpperFloorsForOrders()){
 		direction=UP;
@@ -301,4 +291,3 @@ int ctrl_noObstruction(){
 		
 	}
 }
-	

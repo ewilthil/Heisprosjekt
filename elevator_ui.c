@@ -1,7 +1,6 @@
 #include "elevator_ui.h"
 elev_button_type_t lastButtonTypeOrder;
 int lastFloorOrder;
-
 void ui_checkStop(){
 	if(elev_get_stop_signal()){
 		sm_handleEvent(STOP_PRESSED);
