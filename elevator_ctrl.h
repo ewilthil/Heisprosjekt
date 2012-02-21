@@ -12,17 +12,19 @@
 #define NUMBEROFBUTTONTYPES 3
 #define COMMAND 2
 
-
 typedef enum {
 	UP=1, 
 	DOWN=-1
 }direction_t;
 
+/*Hjelpefunksjoner, skal bort i endelig versjon*/
 void potet(char[]);
 void debug_printDestinationMatrix();
+/*Oppstartsfunksjon*/
 void ctrl_initiateElevator();
 /*get*/
 direction_t ctrl_getDirection();
+int ctrl_elevatorHasBeenObstructed();
 /*Actions*/
 void ctrl_handleStop();
 void ctrl_handleEmergencyStop();
@@ -38,14 +40,15 @@ int ctrl_floorHasOrder();
 int ctrl_doorClosed();
 /*Lyttefunksjon*/
 void ctrl_checkSensor();
-/*Støttefunksjoner*/
+/*Heisstyring*/
 void ctrl_setNewDirection();
+void ctrl_clearDestinationMatrix();
+void ctrl_setLightsAtElevatorStop();
+void ctrl_removeOrder();
+/*Sammenligning*/
 int ctrl_orderAtCurrentFloor();
 int ctrl_checkLowerFloorsForOrders();
 int ctrl_checkUpperFloorsForOrders();
-void ctrl_clearDestinationMatrix();
-void ctrl_setLightsAtElevatorStop();
 int ctrl_orderListHasOrders();
-void ctrl_removeOrder();
 
 #endif //ELEVATOR_CTRL_H
