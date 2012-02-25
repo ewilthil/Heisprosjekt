@@ -1,6 +1,6 @@
 #include "elevator_io.h"
 
-int motorIsRunning;
+static int motorIsRunning=0;
 static int doorClosed=1;
 /*lyskontrollere*/
 void io_setStopLight(){
@@ -34,7 +34,6 @@ void io_openDoor(){
 	timer_startDoorTimer();
 	elev_set_door_open_lamp(1);
 	doorClosed=0;
-	potet("open");
 }
 void io_closeDoor(){
 	timer_stopDoorTimer();
@@ -84,7 +83,6 @@ int io_orderButtonPressed(buttonType_t buttonType, int floor){
 
 /*guard for SM*/
 int io_doorClosed(){
-	potet("closed");
 	return doorClosed;
 }
 

@@ -15,5 +15,6 @@ order_t ui_lastOrder();
 void ui_checkStop();
 void ui_checkButtons();
 void ui_checkObstruction();
+int ui_obstructionIsRemoved();
 
 #endif 

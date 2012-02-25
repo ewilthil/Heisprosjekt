@@ -1,10 +1,9 @@
 #include "elevator_ctrl.h"
 
-direction_t direction=UP;
-int currentFloor=-1;
-int elevatorHasBeenObstructed=0;
-direction_t lastDirection;
-int orderMatrix[NUMBER_OF_BUTTON_TYPES][NUMBER_OF_FLOORS]={
+static direction_t direction=UP;
+static int currentFloor=-1;
+static direction_t directionFromLastFloor=UP;
+static int orderMatrix[NUMBER_OF_BUTTON_TYPES][NUMBER_OF_FLOORS]={
          	              /*1	2	3	4*/
 /*BUTTON_CALL_UP*/	{	0,	0,	0,	0},
 /*BUTTON_CALL_DOWN*/	{	0,	0,	0,	0},
@@ -53,10 +52,6 @@ void ctrl_initiateElevator(){
 direction_t ctrl_getDirection(){
 	return direction;
 }
-int ctrl_elevatorHasBeenObstructed(){
-	return elevatorHasBeenObstructed;
-}
-
 /*Actions*/
 void ctrl_handleEmergencyStop(){
 	io_setStopLight();
@@ -66,7 +61,7 @@ void ctrl_handleEmergencyStop(){
 }	
 void ctrl_handleDestination(){
 	ctrl_setNewDirection();
-	lastDirection=direction;
+	directionFromLastFloor=direction;
 	io_startMotor();
 }
 void ctrl_handleDestinationFromIdle(){
@@ -74,7 +69,7 @@ void ctrl_handleDestinationFromIdle(){
 		sm_handleEvent(FLOOR_REACHED);
 	else{
 		ctrl_setNewDirection();
-		lastDirection=direction;
+		directionFromLastFloor=direction;
 		io_startMotor();
 	}
 }
@@ -110,20 +105,8 @@ int ctrl_newOrderNotInCurrentFloor(){
 	return (lastOrder.floor != currentFloor);
 }
 int ctrl_noObstruction(){
-	if(io_doorClosed()){
-		elevatorHasBeenObstructed=0;
-		return 1;
-	}
-	else if(io_elevatorIsObstructed()){
-		elevatorHasBeenObstructed=1;
-		return 0;
-	}
-	else{
-		elevatorHasBeenObstructed=0;
-		return 1;
-	}
+	return !io_elevatorIsObstructed();
 }
-//TODO: Fjern denne. int ctrl_when_the_elevator_is_moving_should_it_stop_at_the_floor_the_elevator_is_currently_in()
 int ctrl_stopElevatorAtCurrentFloor(){
 	if(orderMatrix[BUTTON_COMMAND][currentFloor])
 		return 1;
@@ -151,7 +134,7 @@ void ctrl_checkSensor(){
 	int newFloor=io_getCurrentFloor();
 	if(newFloor>=BOTTOM_FLOOR){
 		currentFloor=newFloor;
-		lastDirection=direction;
+		directionFromLastFloor=direction;
 		io_setFloorIndicator(currentFloor);
 		sm_handleEvent(FLOOR_REACHED);
 	}
@@ -159,13 +142,13 @@ void ctrl_checkSensor(){
 
 /*Heisstyring*/
 void ctrl_setNewDirection(){
-	if(lastDirection==UP && ctrl_upperFloorsHaveOrders())
+	if(directionFromLastFloor==UP && ctrl_upperFloorsHaveOrders())
 		direction=UP;
-	else if(lastDirection==UP && ctrl_lowerFloorsHaveOrders())
+	else if(directionFromLastFloor==UP && ctrl_lowerFloorsHaveOrders())
 		direction=DOWN;
-	else if(lastDirection==DOWN && ctrl_lowerFloorsHaveOrders())
+	else if(directionFromLastFloor==DOWN && ctrl_lowerFloorsHaveOrders())
 		direction=DOWN;
-	else if(lastDirection==DOWN && ctrl_upperFloorsHaveOrders())
+	else if(directionFromLastFloor==DOWN && ctrl_upperFloorsHaveOrders())
 		direction=UP;
 }
 void ctrl_clearAllOrders(){
@@ -219,7 +202,7 @@ int ctrl_orderAtCurrentFloor(){
 }
 int ctrl_lowerFloorsHaveOrders(){
 	int floor,button,floorCorrection;
-	if(lastDirection==UP)
+	if(directionFromLastFloor==UP)
 		floorCorrection=1;
 	else
 		floorCorrection=0;
@@ -233,7 +216,7 @@ int ctrl_lowerFloorsHaveOrders(){
 }
 int ctrl_upperFloorsHaveOrders(){
 	int floor,button,floorCorrection;
-	if(lastDirection==UP)
+	if(directionFromLastFloor==UP)
 		floorCorrection=1;
 	else
 		floorCorrection=0;

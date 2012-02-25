@@ -1,8 +1,8 @@
 #include "elevator_timer.h"
 
-int timerActive=0;
-clock_t startClock;
-clock_t currentClock;
+static int timerActive=0;
+static clock_t startClock;
+static clock_t currentClock;
 
 
 void timer_startDoorTimer(){

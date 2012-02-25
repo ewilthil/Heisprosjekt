@@ -27,7 +27,6 @@ void debug_printDestinationMatrix();
 void ctrl_initiateElevator();
 /*get*/
 direction_t ctrl_getDirection();
-int ctrl_elevatorHasBeenObstructed();
 /*Actions*/
 void ctrl_handleStop();
 void ctrl_handleEmergencyStop();
