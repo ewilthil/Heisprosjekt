@@ -3,6 +3,7 @@
 
 #include "elev.h"
 #include "elevator_ctrl.h"
+#include "elevator_timer.h"
 #include <unistd.h>
 
 #define buttonType_t elev_button_type_t

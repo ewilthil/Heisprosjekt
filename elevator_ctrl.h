@@ -8,6 +8,7 @@
 #include "elevator_sm.h"
 #include "elevator_ui.h"
 #include "elevator_io.h"
+#include "elevator_timer.h"
 
 #define NUMBER_OF_FLOORS 4 
 #define NUMBER_OF_BUTTON_TYPES 3

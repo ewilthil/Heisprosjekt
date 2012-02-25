@@ -1,6 +1,7 @@
 #include "elev.h"
 #include "elevator_ui.h"
 #include "elevator_ctrl.h"
+#include "elevator_timer.h"
 #include <stdio.h>
 
 int main()
@@ -17,6 +18,7 @@ int main()
 		ui_checkButtons();
 		ctrl_checkSensor();
 		ui_checkObstruction();
+		timer_checkDoorTimer();
        	}
 
     	return 0;

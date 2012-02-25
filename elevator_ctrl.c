@@ -60,6 +60,7 @@ int ctrl_elevatorHasBeenObstructed(){
 /*Actions*/
 void ctrl_handleEmergencyStop(){
 	io_setStopLight();
+	timer_stopDoorTimer();
 	io_stopMotorEmergency();
 	ctrl_clearAllOrders();
 }	
@@ -81,27 +82,6 @@ void ctrl_handleStop(){
 	io_stopMotor();
 	io_openDoor();
 	ctrl_removeOrdersFromCurrentFloor();
-	clock_t startTime=clock();
-	clock_t stopTime=clock();
-	while( ((stopTime-startTime)/CLOCKS_PER_SEC) < 3){
-		ui_checkStop();
-		ui_checkButtons();
-		ui_checkObstruction();
-		//Nødvendig for å stoppe pause-timeren, hvis 
-		if(io_motorIsRunning())
-			return;
-		if(io_elevatorIsObstructed())
-			startTime=stopTime;
-		stopTime=clock();
-	}
-	state_t state = sm_getState();
-	if(state==EMERGENCY_STOP)
-		return;
-	io_closeDoor();
-	if(ctrl_orderListHaveOrders())
-		sm_handleEvent(NEW_DESTINATION);
-	else
-		sm_handleEvent(FLOOR_REACHED);
 }
 void ctrl_handleDestinationFromEM(){
 	io_closeDoor();

@@ -31,10 +31,13 @@ void io_setFloorIndicator(int floor){
 
 /*heisaksjoner*/
 void io_openDoor(){
+	timer_startDoorTimer();
 	elev_set_door_open_lamp(1);
 	doorClosed=0;
+	potet("open");
 }
 void io_closeDoor(){
+	timer_stopDoorTimer();
 	elev_set_door_open_lamp(0);
 	doorClosed=1;
 }
@@ -81,6 +84,7 @@ int io_orderButtonPressed(buttonType_t buttonType, int floor){
 
 /*guard for SM*/
 int io_doorClosed(){
+	potet("closed");
 	return doorClosed;
 }
 
