@@ -25,8 +25,8 @@ int io_elevatorIsInFloor();
 int io_getCurrentFloor();
 int io_motorIsRunning();
 /*knapperegistrering*/
-int io_EmergencyStopPressed();
-int io_getButtonPush(buttonType_t, int);
+int io_emergencyStopPressed();
+int io_orderButtonPressed(buttonType_t, int);
 /*guard for SM*/
 int io_doorClosed();
 #endif

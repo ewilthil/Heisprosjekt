@@ -72,10 +72,10 @@ int io_motorIsRunning(){
 }
 
 /*knapperegistrering*/
-int io_EmergencyStopPressed(){
+int io_emergencyStopPressed(){
 	return elev_get_stop_signal();
 }
-int io_getButtonPush(buttonType_t buttonType, int floor){
+int io_orderButtonPressed(buttonType_t buttonType, int floor){
 	return elev_get_button_signal(buttonType,floor);
 }
 

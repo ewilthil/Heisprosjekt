@@ -1,7 +1,7 @@
 #ifndef ELEVATOR_SM_H
 #define ELEVATOR_SM_H
 
-//TODO: stdio.h skal bort i endelig versjon
+//TODO: stdio.h og printState skal bort i endelig versjon
 #include "elevator_ctrl.h"
 #include <stdio.h>
 

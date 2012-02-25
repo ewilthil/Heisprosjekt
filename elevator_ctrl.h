@@ -8,10 +8,9 @@
 #include "elevator_sm.h"
 #include "elevator_ui.h"
 #include "elevator_io.h"
-//TODO: sjekk om COMMAND brukes, else{delete}
+
 #define NUMBER_OF_FLOORS 4 
 #define NUMBER_OF_BUTTON_TYPES 3
-#define COMMAND 2
 #define TOP_FLOOR 3
 #define BOTTOM_FLOOR 0
 
@@ -34,12 +33,12 @@ void ctrl_handleEmergencyStop();
 void ctrl_handleDestination();
 void ctrl_handleDestinationFromIdle();
 void ctrl_handleDestinationFromEM();
-void ctrl_addOrderToList();
+void ctrl_handleNewOrder();
 /*Guards*/
-int ctrl_orderFromCommand();
-int ctrl_orderNotInCurrentFloor();
+int ctrl_newOrderFromCommandButton();
+int ctrl_newOrderNotInCurrentFloor();
 int ctrl_noObstruction();
-int ctrl_currentFloorHasOrder();
+int ctrl_stopElevatorAtCurrentFloor();
 /*Lyttefunksjon*/
 void ctrl_checkSensor();
 /*Heisstyring*/
@@ -52,6 +51,6 @@ void ctrl_removeSingleOrder(buttonType_t);
 int ctrl_orderAtCurrentFloor();
 int ctrl_lowerFloorsHaveOrders();
 int ctrl_upperFloorsHaveOrders();
-int ctrl_orderListHasOrders();
+int ctrl_orderListHaveOrders();
 
 #endif //ELEVATOR_CTRL_H

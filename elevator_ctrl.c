@@ -5,10 +5,10 @@ int currentFloor=-1;
 int elevatorHasBeenObstructed=0;
 direction_t lastDirection;
 int orderMatrix[NUMBER_OF_BUTTON_TYPES][NUMBER_OF_FLOORS]={
-                      /*1	2	3	4*/
-/*CALL_UP*/	{	0,	0,	0,	0},
-/*CALL_DOWN*/	{	0,	0,	0,	0},
-/*COMMAND*/	{	0,	0,	0,	0}
+         	              /*1	2	3	4*/
+/*BUTTON_CALL_UP*/	{	0,	0,	0,	0},
+/*BUTTON_CALL_DOWN*/	{	0,	0,	0,	0},
+/*BUTTON_COMMAND*/	{	0,	0,	0,	0}
 };
 
 /*Hjelpefunksjoner, skal bort i endelig versjon*/
@@ -69,9 +69,8 @@ void ctrl_handleDestination(){
 	io_startMotor();
 }
 void ctrl_handleDestinationFromIdle(){
-	if(ctrl_orderAtCurrentFloor()){
+	if(ctrl_orderAtCurrentFloor())
 		sm_handleEvent(FLOOR_REACHED);
-	}
 	else{
 		ctrl_setNewDirection();
 		lastDirection=direction;
@@ -88,6 +87,7 @@ void ctrl_handleStop(){
 		ui_checkStop();
 		ui_checkButtons();
 		ui_checkObstruction();
+		//Nødvendig for å stoppe pause-timeren, hvis 
 		if(io_motorIsRunning())
 			return;
 		if(io_elevatorIsObstructed())
@@ -98,11 +98,10 @@ void ctrl_handleStop(){
 	if(state==EMERGENCY_STOP)
 		return;
 	io_closeDoor();
-	if(ctrl_orderListHasOrders()){
+	if(ctrl_orderListHaveOrders())
 		sm_handleEvent(NEW_DESTINATION);
-	}else{
+	else
 		sm_handleEvent(FLOOR_REACHED);
-	}
 }
 void ctrl_handleDestinationFromEM(){
 	io_closeDoor();
@@ -114,7 +113,7 @@ void ctrl_handleDestinationFromEM(){
 		io_startMotor();
 	}
 }
-void ctrl_addOrderToList(){
+void ctrl_handleNewOrder(){
 	order_t lastOrder=ui_lastOrder();
 	orderMatrix[lastOrder.button][lastOrder.floor]=1;
 	io_setButtonLight(lastOrder.button, lastOrder.floor);		
@@ -122,11 +121,11 @@ void ctrl_addOrderToList(){
 }
 
 /*Guards*/
-int ctrl_orderFromCommand(){
+int ctrl_newOrderFromCommandButton(){
 	order_t lastOrder=ui_lastOrder();
 	return (lastOrder.button == BUTTON_COMMAND);	
 }
-int ctrl_orderNotInCurrentFloor(){
+int ctrl_newOrderNotInCurrentFloor(){
 	order_t lastOrder=ui_lastOrder();
 	return (lastOrder.floor != currentFloor);
 }
@@ -144,8 +143,9 @@ int ctrl_noObstruction(){
 		return 1;
 	}
 }
-int ctrl_currentFloorHasOrder(){
-	if(orderMatrix[COMMAND][currentFloor])
+//TODO: Fjern denne. int ctrl_when_the_elevator_is_moving_should_it_stop_at_the_floor_the_elevator_is_currently_in()
+int ctrl_stopElevatorAtCurrentFloor(){
+	if(orderMatrix[BUTTON_COMMAND][currentFloor])
 		return 1;
 	if(direction==UP){
 		if(orderMatrix[BUTTON_CALL_UP][currentFloor]){
@@ -265,7 +265,7 @@ int ctrl_upperFloorsHaveOrders(){
 	}
 	return 0;
 }
-int ctrl_orderListHasOrders(){
+int ctrl_orderListHaveOrders(){
 	int button,floor;
 	for(button=0;button<NUMBER_OF_BUTTON_TYPES;button++){
 		for(floor=BOTTOM_FLOOR;floor<=TOP_FLOOR;floor++){
