@@ -44,7 +44,7 @@ void ui_checkButtons(){
 //TODO:Endre funksjon, den suger
 void ui_checkObstruction(){
 	//if(ctrl_noObstruction())
-	if(ui_obstructionIsRemoved())
+	if(ui_obstructionIsRemoved() && ctrl_orderListHaveOrders())
 		sm_handleEvent(NEW_DESTINATION);
 	if(io_elevatorIsObstructed()){
 		if(io_motorIsRunning())
