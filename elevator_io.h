@@ -8,6 +8,7 @@
 #include "elevator_timer.h"
 
 #define buttonType_t elev_button_type_t
+
 /*"lysbrytere"*/
 void io_setStopLight();
 void io_resetStopLight();

@@ -1,4 +1,5 @@
 #include "elevator_ui.h"
+#include <stdlib.h>
 
 static order_t lastOrder;
 static int elevatorHasBeenObstructed=0;
@@ -53,9 +54,12 @@ void ui_checkObstruction(){
 	elevatorHasBeenObstructed=io_elevatorIsObstructed();
 }
 int ui_obstructionIsRemoved(){
-	if(io_elevatorIsObstructed()==0 && elevatorHasBeenObstructed==1)
+	printf("%d\n",io_elevatorIsObstructed());
+	if(io_elevatorIsObstructed()==0 && elevatorHasBeenObstructed==1){
+		potet("obsRem");
+		exit(1);
 		return 1;
+	}
 	else
 		return 0;
 }
-

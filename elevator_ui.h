@@ -1,10 +1,10 @@
 #ifndef ELEVATOR_UI_H
 #define ELEVATOR_UI_H
-//TODO: bytt fra elev til io
-//#include "elevator_io.h"
+
 #include "elevator_sm.h"
 #include "elevator_ctrl.h"
 #include "elev.h"
+
 #define buttonType_t elev_button_type_t
 typedef struct{
 	buttonType_t button;

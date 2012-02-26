@@ -21,7 +21,7 @@ void sm_handleEvent(event_t event){
 	struct state_action_pair_t transition = stateTable[state][event];
 	if(transition.guard == NULL || transition.guard()){
 		state = transition.nextState;
-	//	sm_printState();
+//		sm_printState();
 		if(transition.action != NULL)
 			transition.action();
 	}
