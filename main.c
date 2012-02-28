@@ -11,7 +11,7 @@ int main()
         	printf(__FILE__ ": Unable to initialize elevator hardware\n");
         	return 1;
    	}
-    	
+	
 	ctrl_initiateElevator();
     	while (1) {
 		ui_checkStop();

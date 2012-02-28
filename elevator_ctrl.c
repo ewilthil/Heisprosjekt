@@ -1,4 +1,5 @@
 #include "elevator_ctrl.h"
+#include <stdlib.h>
 
 static direction_t direction=UP;
 static int currentFloor=-1;
@@ -12,6 +13,7 @@ static int orderMatrix[NUMBER_OF_BUTTON_TYPES][NUMBER_OF_FLOORS]={
 
 /*Hjelpefunksjoner, skal bort i endelig versjon*/
 void potet(char str[]){
+	system(clear);
 	printf("Potet: %s!\n",str);
 }
 void debug_printDestinationMatrix(){
@@ -57,7 +59,8 @@ void ctrl_handleEmergencyStop(){
 	io_setStopLight();
 	//TODO: sjekk om denne utkommenteringen buger til ting
 //	timer_stopDoorTimer();
-	io_stopMotorEmergency();
+//	io_stopMotorEmergency();
+	io_stopMotor();
 	ctrl_clearAllOrders();
 }	
 void ctrl_handleDestination(){
@@ -92,13 +95,16 @@ void ctrl_handleDestinationFromEM(){
 void ctrl_handleNewOrder(){
 	order_t lastOrder=ui_lastOrder();
 	orderMatrix[lastOrder.button][lastOrder.floor]=1;
-	io_setButtonLight(lastOrder.button, lastOrder.floor);		
+	io_setButtonLight(lastOrder.button, lastOrder.floor);
 	sm_handleEvent(NEW_DESTINATION);
 }
 
 /*Guards*/
 int ctrl_newOrderFromCommandButton(){
 	order_t lastOrder=ui_lastOrder();
+	if(EMfromButton==0){
+		return 1;
+	}
 	return (lastOrder.button == BUTTON_COMMAND);	
 }
 int ctrl_newOrderNotInCurrentFloor(){

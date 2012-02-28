@@ -1,6 +1,6 @@
 #include "elevator_ui.h"
 #include <stdlib.h>
-
+static EMfromButton=1;
 static order_t lastOrder;
 static int elevatorHasBeenObstructed=0;
 order_t ui_lastOrder(){
@@ -8,10 +8,13 @@ order_t ui_lastOrder(){
 }
 void ui_checkStop(){
 	if(io_emergencyStopPressed()){
+		EMfromButton=1;
 		sm_handleEvent(STOP_PRESSED);
 	}	
 }
 void ui_checkButtons(){
+	if(io_emergencyStopPressed())
+		return;
 	buttonType_t buttonType;
 	int floor;
 
@@ -44,13 +47,16 @@ void ui_checkButtons(){
 }
 //TODO:Endre funksjon, den suger
 void ui_checkObstruction(){
+	
 	//if(ctrl_noObstruction())
 	int elevatorIsObstructed=io_elevatorIsObstructed();
 	if(ui_obstructionIsRemoved(elevatorIsObstructed) && ctrl_orderListHaveOrders())
 		sm_handleEvent(NEW_DESTINATION);
 	if(io_elevatorIsObstructed()){
-		if(io_motorIsRunning())
+		if(io_motorIsRunning()){
+			EMfromButton=0;
 			sm_handleEvent(STOP_PRESSED);
+		}
 	}
 	elevatorHasBeenObstructed=elevatorIsObstructed;
 }

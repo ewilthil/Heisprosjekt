@@ -47,12 +47,23 @@ void io_startMotor(){
 }
 void io_stopMotor(){
 	direction_t direction=ctrl_getDirection();
+	int elevatorSpeed = io_read_analog(0);
+	if(elevatorSpeed<1800 || elevatorSpeed>2300)
+		elev_set_speed(-300*direction);
+		potet("STOP!");
+		usleep(6000);
+	motorIsRunning=0;
+	elev_set_speed(0);
+
+	/*
 	if(motorIsRunning){
 		elev_set_speed(-300*direction);
-		usleep(6000);
+		if(elevatorSpeed<1800 || elevatorSpeed>2300)
+			usleep(6000);
 	}
 	motorIsRunning=0;
 	elev_set_speed(0);
+	*/
 }
 void io_stopMotorEmergency(){
 	motorIsRunning=0;
@@ -94,4 +105,3 @@ void io_resetFloorLightsOnTemporaryStop(int floor){
 	else if(direction==DOWN)
 		elev_set_button_lamp(BUTTON_CALL_DOWN,floor,0);
 }
-

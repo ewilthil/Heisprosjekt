@@ -5,7 +5,7 @@
 #include "elevator_ctrl.h"
 #include <stdio.h>
 
-#define NUMBEROFSTATES 4
+#define NUMBEROFSTATES 5
 #define NUMBEROFEVENTS 4
 
 typedef enum{
@@ -18,7 +18,8 @@ typedef enum{
 	EXECUTING_ORDER, 
 	TEMPORARY_STOP, 
 	IDLE, 
-	EMERGENCY_STOP
+	EMERGENCY_STOP,
+	OBSTRUCTED_BETWEEN_FLOORS
 }state_t;
 
 state_t sm_getState();

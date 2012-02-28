@@ -1,0 +1,139 @@
+\documentclass[a4paper]{article}
+\usepackage{mypack}
+\setlength{\parindent}{0cm}
+\begin{document}
+
+\section{Usecases}
+\subsection*{Oppstart}
+\underline{Precondition:} 
+Ingen
+
+\underline{Trigger:}  
+Program startes
+
+\underline{Suksesscenario:}
+\begin{enumerate}
+\item Sjekk etasjesensor
+\begin{enumerate}
+\item hvis ja, hopp til 3
+\end{enumerate}
+\item Kjør heis opp til den kommer til en etasje
+\item Stopp heisen
+\end{enumerate}
+
+\underline{Suksessgaranti:} 
+\begin{enumerate}
+\item Heis i ro i kjent etasje
+\end{enumerate}
+
+\underline{Minimal garanti:} 
+samme som suksessgaranti 
+
+\underline{Scenario:} 
+\begin{enumerate}
+\item Heisen starter
+\item Heisen går til gyldig etasje dersom den ikke står i en gyldig etasje
+\end{enumerate}
+
+
+\subsection*{Bestill Heis}
+\underline{Precondition:} 
+Stoppknappen har ikke blitt trykket, heis ikke i oppstartsmodus
+
+\underline{Trigger:} 
+Bestillingsknapp trykkes inn
+
+\underline{Suksesscenario:} 
+\begin{enumerate}
+\item{Bestilling i etasje blir lagt til i ordreliste
+\item{Hvis heisen ikke har andre ordre, kjører heisen til etasje
+\item Hvis heisen har andre order vil den kjøre til etasjen og stoppe hvis den allerede kjører i riktig retning}
+\item{Ellers vil den vente til den er ferdig med alle bestillinger i motsatt retning, og deretter kjøre mot etasje, og stoppe ved bestillinger i andre etasjer på veien}
+\item Heisen kommer til etasjen, stopper
+\item Åpner døra i 3 sekunder
+\item{Hvis heisen blir obstruert vil nedtellingen begynne på nytt når obstruksjon fjernes}
+\end{enumerate}
+
+\underline{Suksessgaranti:} 
+\begin{enumerate}
+\item Heisen står i etasjen
+\item Dør åpen i minimum 3 sekunder, deretter lukkes den hvis det ikke er obstruksjon
+\item Heisen vil fortsette i samme retning som bestillingen antyder
+\end{enumerate}
+
+\underline{Minimal garanti:} 
+\begin{enumerate}
+\item{Ingen}
+\end{enumerate}
+
+
+\subsection*{Bestilling fra etasjeknapp}
+
+\underline{Precondition:} 
+Heis ikke i oppstartsmodus
+\underline{Trigger:} 
+Etasjeknapp trykket
+
+\underline{Suksesscenario:}
+\begin{enumerate}
+\item SAMME SOM BESTILLING, dog litt annen prioritering
+\end{enumerate}
+
+\underline{Suksessgaranti:} 
+\begin{enumerate}
+\item Heis til etasje
+\item Dør åpen i minimum 3 sekunder, deretter lukkes den hvis det ikke er obstruksjon
+\end{enumerate}
+
+\underline{Minimal garanti:} 
+Samme som suksessgaranti
+
+
+\subsection*{Stopp}
+\underline{Precondition:} 
+Ingen
+
+\underline{Trigger:} 
+Stopp-knapp trykkes eller obstruksjon aktiveres når heisen er i bevegelse mellom etasjer
+
+\underline{Suksesscenario:}
+\begin{enumerate}
+\item Heisen stoppes
+\item Alle bestillinger slettes fra bestillingsliste
+\end{enumerate}
+
+\underline{Suksessgaranti:}
+\begin{enumerate}
+\item Heisen står stille
+\item bestillingene slettes
+\end{enumerate}
+
+\underline{Minimal garanti:} 
+Samme som suksessgaranti
+
+\underline{Scenario:} 
+\begin{enumerate}
+\item Heisen stopper
+\end{enumerate}
+
+\subsection*{Obstruksjon}
+\underline{Precondition:}
+Dør åpen
+
+\underline{Trigger:}
+Obstruksjonsføleren aktiveres
+
+\underline{Suksesscenario:}
+\begin{enumerate}
+\item Dør forblir åpen
+\item Nedtelling stopper midlertidig
+\end{enumerate}
+
+\underline{Suksessgaranti:}
+\begin{enumerate}
+\item Dør forblir åpen
+\end{enumerate}
+\underline{Minimal garanti:}
+Samme som suksessgaranti
+
+\end{document}
