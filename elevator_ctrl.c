@@ -55,7 +55,8 @@ direction_t ctrl_getDirection(){
 /*Actions*/
 void ctrl_handleEmergencyStop(){
 	io_setStopLight();
-	timer_stopDoorTimer();
+	//TODO: sjekk om denne utkommenteringen buger til ting
+//	timer_stopDoorTimer();
 	io_stopMotorEmergency();
 	ctrl_clearAllOrders();
 }	

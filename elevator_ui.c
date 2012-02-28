@@ -45,19 +45,18 @@ void ui_checkButtons(){
 //TODO:Endre funksjon, den suger
 void ui_checkObstruction(){
 	//if(ctrl_noObstruction())
-	if(ui_obstructionIsRemoved() && ctrl_orderListHaveOrders())
+	int elevatorIsObstructed=io_elevatorIsObstructed();
+	if(ui_obstructionIsRemoved(elevatorIsObstructed) && ctrl_orderListHaveOrders())
 		sm_handleEvent(NEW_DESTINATION);
 	if(io_elevatorIsObstructed()){
 		if(io_motorIsRunning())
 			sm_handleEvent(STOP_PRESSED);
 	}
-	elevatorHasBeenObstructed=io_elevatorIsObstructed();
+	elevatorHasBeenObstructed=elevatorIsObstructed;
 }
-int ui_obstructionIsRemoved(){
-	printf("%d\n",io_elevatorIsObstructed());
-	if(io_elevatorIsObstructed()==0 && elevatorHasBeenObstructed==1){
+int ui_obstructionIsRemoved(int elevatorIsObstructed){
+	if(elevatorIsObstructed==0 && elevatorHasBeenObstructed==1){
 		potet("obsRem");
-		exit(1);
 		return 1;
 	}
 	else
