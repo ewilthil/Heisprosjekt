@@ -1,0 +1,22 @@
+%/////////////////////////////////////////////////////////////////////////////////////
+%For å bruke denne, kopier til mappa med .tex-filen
+%og bruk \usepackage{mypack}
+%/////////////////////////////////////////////////////////////////////////////////////
+\ProvidesPackage{mypack}
+
+\usepackage[latin1]{inputenc}%Gir norske tegn. eventuelt UTF-8
+\usepackage{amsmath} %ekstra matte
+%\usepackage{mathtools} %ekstra matte
+\usepackage{framed} %bokser og rammer
+\usepackage{color} %farge, trengs for framed sin {shaded}environment
+\usepackage{xcolor}%HTML-farger
+\usepackage{float}%justering av figurer og tabeller etc
+\usepackage{graphicx}
+
+\renewcommand\contentsname{Innholdsfortegnelse}
+\renewcommand\figurename{Figur}
+\renewcommand\tablename{Tabell}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}%horisontal strek
+
+\definecolor{shadecolor}{HTML}{CCCCCC}%setter farge for {shaded}environment. Grå.
