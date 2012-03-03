@@ -1,10 +1,18 @@
 \documentclass[a4paper]{article}
+%\usepackage[latin1s]{inputenc}
 \usepackage{mypack}
+\usepackage[ampersand]{easylist}
+\usepackage{fullpage}
 \setlength{\parindent}{0cm}
 \begin{document}
 
 \section{Usecases}
+\emph{
+Bestillingsknapp: Knappene opp og ned som befinner seg i hver etasje.\\
+Etasjeknapp: Knappene inne i heisen som bestemmer hvor heisen skal gå
+}
 \subsection*{Oppstart}
+\begin{minipage}{0.47\textwidth}
 \underline{Precondition:} 
 Ingen
 
@@ -13,30 +21,32 @@ Program startes
 
 \underline{Suksesscenario:}
 \begin{enumerate}
-\item Sjekk etasjesensor
-\begin{enumerate}
-\item hvis ja, hopp til 3
-\end{enumerate}
-\item KjÃ¸r heis opp til den kommer til en etasje
-\item Stopp heisen
+	\item Sjekk etasjesensor
+	\item Kjør heis opp til den kommer til en etasje
+	\item Stopp heisen
 \end{enumerate}
 
+\end{minipage}
+\hfill
+\begin{minipage}{0.47\textwidth}
+\underline{Utvidelser:}
+
+\begin{description}                                                                      
+\item 1a. Hvis heis er i etasje, hopp til punkt 3.
+\end{description}
+
 \underline{Suksessgaranti:} 
-\begin{enumerate}
-\item Heis i ro i kjent etasje
-\end{enumerate}
+Heis i ro i kjent etasje
 
 \underline{Minimal garanti:} 
 samme som suksessgaranti 
 
-\underline{Scenario:} 
-\begin{enumerate}
-\item Heisen starter
-\item Heisen gÃ¥r til gyldig etasje dersom den ikke stÃ¥r i en gyldig etasje
-\end{enumerate}
+\end{minipage}
 
 
+%####################
 \subsection*{Bestill Heis}
+\begin{minipage}{0.47\textwidth}
 \underline{Precondition:} 
 Stoppknappen har ikke blitt trykket, heis ikke i oppstartsmodus
 
@@ -45,95 +55,101 @@ Bestillingsknapp trykkes inn
 
 \underline{Suksesscenario:} 
 \begin{enumerate}
-\item{Bestilling i etasje blir lagt til i ordreliste
-\item{Hvis heisen ikke har andre ordre, kjÃ¸rer heisen til etasje
-\item Hvis heisen har andre order vil den kjÃ¸re til etasjen og stoppe hvis den allerede kjÃ¸rer i riktig retning}
-\item{Ellers vil den vente til den er ferdig med alle bestillinger i motsatt retning, og deretter kjÃ¸re mot etasje, og stoppe ved bestillinger i andre etasjer pÃ¥ veien}
-\item Heisen kommer til etasjen, stopper
-\item Ã…pner dÃ¸ra i 3 sekunder
-\item{Hvis heisen blir obstruert vil nedtellingen begynne pÃ¥ nytt nÃ¥r obstruksjon fjernes}
+	\item Bestilling i etasje blir lagt til i ordreliste
+	\item Heisen fortsetter med andre ordre. En ordre vil slettes etter at den blir ekspedert
+	\item Hvis heisen ikke har flere ordre videre i retningen den sist kjørte, vil den snu og ekspedere ordre i motsatt retning.
+	\item Når heisen kommer til riktig etasje, stopp heisen
+	\item Fjern etasjen fra ordrelisten, åpne døren
+	\item Døren vil holdes åpen så lenge det er obstruksjon. 
+	\item Når obstruksjonen fjernes vil døren holdes åpen i 3 sekunder.
 \end{enumerate}
+\end{minipage}
+\hfill
+\begin{minipage}{0.47\textwidth}
+\underline{Utvidelser:}
+\begin{description}
+	\item 2a. Hvis heisen kommer til riktig etasje i samme retning som bestillingen, hopp til punkt 4.
+	\item 6a. Hvis det ikke er obstruksjon, hold døren oppe i 3 sekunder. 
+\end{description}
 
 \underline{Suksessgaranti:} 
 \begin{enumerate}
-\item Heisen stÃ¥r i etasjen
-\item DÃ¸r Ã¥pen i minimum 3 sekunder, deretter lukkes den hvis det ikke er obstruksjon
-\item Heisen vil fortsette i samme retning som bestillingen antyder
+	\item Heisen står i etasjen
+	\item Dør åpen i minimum 3 sekunder, deretter lukkes den hvis det ikke er obstruksjon
+	\item Heisen vil fortsette i samme retning som bestillingen antyder
 \end{enumerate}
 
 \underline{Minimal garanti:} 
 \begin{enumerate}
-\item{Ingen}
+	\item Ingen
 \end{enumerate}
+\end{minipage}
 
-
+%####################
 \subsection*{Bestilling fra etasjeknapp}
-
+\begin{minipage}{0.47\textwidth}
 \underline{Precondition:} 
-Heis ikke i oppstartsmodus
+Heis ikke i oppstartsmodus 
+
 \underline{Trigger:} 
 Etasjeknapp trykket
 
 \underline{Suksesscenario:}
 \begin{enumerate}
-\item SAMME SOM BESTILLING, dog litt annen prioritering
+	\item Bestilling i etasje blir lagt til i ordreliste
+	\item Heisen med samme retning som før, og stopper for å ekspedere ordre.
+	\item Hvis heisen ikke har flere ordre videre i retningen den sist kjørte, vil den snu og ekspedere ordre i motsatt retning.
+	\item Når heisen kommer til riktig etasje, stopp heisen
+	\item Fjern etasjen fra ordrelisten, åpne døren
+	\item Døren vil holdes åpen så lenge det er obstruksjon. 
+	\item Når obstruksjonen fjernes vil døren holdes åpen i 3 sekunder.
 \end{enumerate}
-
+\end{minipage}
+\hfill
+\begin{minipage}{0.47\textwidth}
+\underline{Utvidelser:}
+\begin{description}
+\item 2a. Hvis heisen kommer til bestillt etasje, hopp til punkt 4.
+\end{description}
 \underline{Suksessgaranti:} 
 \begin{enumerate}
-\item Heis til etasje
-\item DÃ¸r Ã¥pen i minimum 3 sekunder, deretter lukkes den hvis det ikke er obstruksjon
+	\item Heis til etasje
+	\item Dør åpen i minimum 3 sekunder, deretter lukkes den hvis det ikke er obstruksjon
 \end{enumerate}
 
 \underline{Minimal garanti:} 
 Samme som suksessgaranti
+\end{minipage}
 
-
+%####################
 \subsection*{Stopp}
+\begin{minipage}{0.47\textwidth}
 \underline{Precondition:} 
 Ingen
 
 \underline{Trigger:} 
-Stopp-knapp trykkes eller obstruksjon aktiveres nÃ¥r heisen er i bevegelse mellom etasjer
+Stopp-knapp trykkes eller obstruksjon aktiveres når heisen er i bevegelse mellom etasjer
 
 \underline{Suksesscenario:}
 \begin{enumerate}
-\item Heisen stoppes
-\item Alle bestillinger slettes fra bestillingsliste
+	\item Heisen stoppes
+	\item Alle bestillinger slettes fra bestillingsliste
+	\item For å komme ut av stopp-modus må obstruksjon være av og etasjeknapp må trykkes
 \end{enumerate}
-
+\end{minipage}
+\hfill
+\begin{minipage}{0.47\textwidth}
 \underline{Suksessgaranti:}
 \begin{enumerate}
-\item Heisen stÃ¥r stille
-\item bestillingene slettes
+	\item Heisen står stille
+	\item bestillingene slettes
 \end{enumerate}
 
 \underline{Minimal garanti:} 
 Samme som suksessgaranti
 
 \underline{Scenario:} 
-\begin{enumerate}
-\item Heisen stopper
-\end{enumerate}
 
-\subsection*{Obstruksjon}
-\underline{Precondition:}
-DÃ¸r Ã¥pen
-
-\underline{Trigger:}
-ObstruksjonsfÃ¸leren aktiveres
-
-\underline{Suksesscenario:}
-\begin{enumerate}
-\item DÃ¸r forblir Ã¥pen
-\item Nedtelling stopper midlertidig
-\end{enumerate}
-
-\underline{Suksessgaranti:}
-\begin{enumerate}
-\item DÃ¸r forblir Ã¥pen
-\end{enumerate}
-\underline{Minimal garanti:}
-Samme som suksessgaranti
+\end{minipage}
 
 \end{document}
