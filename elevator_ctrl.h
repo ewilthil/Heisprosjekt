@@ -1,10 +1,6 @@
 #ifndef ELEVATOR_CTRL_H
 #define ELEVATOR_CTRL_H
 
-//TODO: stdio.h er kun for feilsøking, kan fjernes i endelig versjon
-
-#include <stdio.h>
-#include <time.h>
 #include "elevator_sm.h"
 #include "elevator_ui.h"
 #include "elevator_io.h"
@@ -20,37 +16,21 @@ typedef enum {
 	DOWN=-1
 }direction_t;
 
-/*Hjelpefunksjoner, skal bort i endelig versjon*/
-void potet(char[]);
-void debug_printDestinationMatrix();
-/*Oppstartsfunksjon*/
 void ctrl_initiateElevator();
-/*get*/
 direction_t ctrl_getDirection();
-/*Actions*/
+void ctrl_checkSensor();
+/*Handlinger for tilstandsmaskin*/
 void ctrl_handleStop();
 void ctrl_handleEmergencyStop();
 void ctrl_handleDestination();
 void ctrl_handleDestinationFromIdle();
 void ctrl_handleDestinationFromEM();
 void ctrl_handleNewOrder();
-/*Guards*/
+/*Betingelser for tilstandsmaskin*/
 int ctrl_newOrderFromCommandButton();
 int ctrl_newOrderNotInCurrentFloor();
 int ctrl_noObstruction();
 int ctrl_stopElevatorAtCurrentFloor();
-/*Lyttefunksjon*/
-void ctrl_checkSensor();
-/*Heisstyring*/
-void ctrl_setNewDirection();
-void ctrl_clearAllOrders();
-void ctrl_setLightsAtElevatorStop();
-void ctrl_removeOrdersFromCurrentFloor();
-void ctrl_removeSingleOrder(buttonType_t);
-/*Sammenligning*/
-int ctrl_orderAtCurrentFloor();
-int ctrl_lowerFloorsHaveOrders();
-int ctrl_upperFloorsHaveOrders();
 int ctrl_orderListHaveOrders();
 
 #endif //ELEVATOR_CTRL_H

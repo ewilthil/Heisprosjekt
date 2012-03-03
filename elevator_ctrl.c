@@ -1,4 +1,5 @@
 #include "elevator_ctrl.h"
+#include "elevator_ctrl_private.h"
 
 static direction_t direction=UP;
 static int currentFloor=-1;
@@ -10,30 +11,6 @@ static int orderMatrix[NUMBER_OF_BUTTON_TYPES][NUMBER_OF_FLOORS]={
 /*BUTTON_COMMAND*/	{	0,	0,	0,	0}
 };
 
-/*Hjelpefunksjoner, skal bort i endelig versjon*/
-void potet(char str[]){
-	printf("Potet: %s!\n",str);
-}
-void debug_printDestinationMatrix(){
-        int i,k;
-        printf("Floors:\t 1 \t 2 \t 3 \t 4 \t\n");
-        for(i=0;i<NUMBER_OF_BUTTON_TYPES;i++){
-                if(i==0)
-                        printf("UP\t");
-                else if(i==1)
-                        printf("DOWN\t");
-                else if(i==2)
-                        printf("CMND\t");
-                else
-                        printf("Ukjent etasje. Erik har driti seg ut. Sjekk funksjonen..\n");
-                for(k=0;k<NUMBER_OF_FLOORS;k++){
-                        printf("%d\t",orderMatrix[i][k]);
-                }
-                printf("\n");
-        }
-}
-
-/*Oppstartsfunksjon*/
 void ctrl_initiateElevator(){
 	if(io_elevatorIsInFloor()){
 		currentFloor=io_getCurrentFloor();
@@ -47,17 +24,22 @@ void ctrl_initiateElevator(){
 		currentFloor=io_getCurrentFloor();
 	}
 }
-
-/*Get-funksjoner*/
 direction_t ctrl_getDirection(){
 	return direction;
 }
-/*Actions*/
+void ctrl_checkSensor(){
+	int newFloor=io_getCurrentFloor();
+	if(newFloor>=BOTTOM_FLOOR){
+		currentFloor=newFloor;
+		directionFromLastFloor=direction;
+		io_setFloorIndicator(currentFloor);
+		sm_handleEvent(FLOOR_REACHED);
+	}
+}
+
+/*Handlinger for tilstandsmaskin*/
 void ctrl_handleEmergencyStop(){
 	io_setStopLight();
-	//TODO: sjekk om denne utkommenteringen buger til ting
-//	timer_stopDoorTimer();
-//	io_stopMotorEmergency();
 	io_stopMotor();
 	ctrl_clearAllOrders();
 }	
@@ -97,12 +79,9 @@ void ctrl_handleNewOrder(){
 	sm_handleEvent(NEW_DESTINATION);
 }
 
-/*Guards*/
+/*Betingelser for tilstandsmaskin*/
 int ctrl_newOrderFromCommandButton(){
 	order_t lastOrder=ui_lastOrder();
-	if(EMfromButton==0){
-		return 1;
-	}
 	return (lastOrder.button == BUTTON_COMMAND);	
 }
 int ctrl_newOrderNotInCurrentFloor(){
@@ -133,20 +112,19 @@ int ctrl_stopElevatorAtCurrentFloor(){
 	}
 	return 0;
 }
-
-/*Lyttefunksjon*/
-void ctrl_checkSensor(){
-	int newFloor=io_getCurrentFloor();
-	if(newFloor>=BOTTOM_FLOOR){
-		currentFloor=newFloor;
-		directionFromLastFloor=direction;
-		io_setFloorIndicator(currentFloor);
-		sm_handleEvent(FLOOR_REACHED);
+int ctrl_orderListHaveOrders(){
+	int button,floor;
+	for(button=0;button<NUMBER_OF_BUTTON_TYPES;button++){
+		for(floor=BOTTOM_FLOOR;floor<=TOP_FLOOR;floor++){
+			if(orderMatrix[button][floor])
+				return 1;
+		}
 	}
-}	
+	return 0;
+}
 
-/*Heisstyring*/
-void ctrl_setNewDirection(){
+/*Støttefunksjoner for handlinger og betingelser*/
+static void ctrl_setNewDirection(){
 	if(directionFromLastFloor==UP && ctrl_upperFloorsHaveOrders())
 		direction=UP;
 	else if(directionFromLastFloor==UP && ctrl_lowerFloorsHaveOrders())
@@ -156,7 +134,7 @@ void ctrl_setNewDirection(){
 	else if(directionFromLastFloor==DOWN && ctrl_upperFloorsHaveOrders())
 		direction=UP;
 }
-void ctrl_clearAllOrders(){
+static void ctrl_clearAllOrders(){
 	io_resetAllButtonLights();
 	int button,floor;
 	for(floor=BOTTOM_FLOOR;floor<=TOP_FLOOR;floor++){
@@ -165,15 +143,7 @@ void ctrl_clearAllOrders(){
 		}
 	}
 }
-void ctrl_setLightsAtElevatorStop(){
-	io_openDoor();
-	io_resetButtonLight(BUTTON_COMMAND,currentFloor);
-	if(currentFloor!=BOTTOM_FLOOR && direction==DOWN)
-		io_resetButtonLight(BUTTON_CALL_DOWN,currentFloor);
-	if(currentFloor!=TOP_FLOOR && direction==UP)
-		io_resetButtonLight(BUTTON_CALL_UP,currentFloor);
-}
-void ctrl_removeOrdersFromCurrentFloor(){
+static void ctrl_removeOrdersFromCurrentFloor(){
 	ctrl_removeSingleOrder(BUTTON_COMMAND);
 	if(currentFloor==BOTTOM_FLOOR)
 		ctrl_removeSingleOrder(BUTTON_CALL_UP);
@@ -192,12 +162,11 @@ void ctrl_removeOrdersFromCurrentFloor(){
 		}	
 	}
 }
-void ctrl_removeSingleOrder(buttonType_t button){
+static void ctrl_removeSingleOrder(buttonType_t button){
 	orderMatrix[button][currentFloor]=0;
 	io_resetButtonLight(button,currentFloor);
 }
-/*Sammenligning*/
-int ctrl_orderAtCurrentFloor(){
+static int ctrl_orderAtCurrentFloor(){
 	int button;
 	for(button=0;button<NUMBER_OF_BUTTON_TYPES;button++){
 		if(orderMatrix[button][currentFloor]) 
@@ -205,7 +174,7 @@ int ctrl_orderAtCurrentFloor(){
 	}
 	return 0;
 }
-int ctrl_lowerFloorsHaveOrders(){
+static int ctrl_lowerFloorsHaveOrders(){
 	int floor,button,floorCorrection;
 	if(directionFromLastFloor==UP)
 		floorCorrection=1;
@@ -219,7 +188,7 @@ int ctrl_lowerFloorsHaveOrders(){
 	}
 	return 0;
 }
-int ctrl_upperFloorsHaveOrders(){
+static int ctrl_upperFloorsHaveOrders(){
 	int floor,button,floorCorrection;
 	if(directionFromLastFloor==UP)
 		floorCorrection=1;
@@ -233,14 +202,3 @@ int ctrl_upperFloorsHaveOrders(){
 	}
 	return 0;
 }
-int ctrl_orderListHaveOrders(){
-	int button,floor;
-	for(button=0;button<NUMBER_OF_BUTTON_TYPES;button++){
-		for(floor=BOTTOM_FLOOR;floor<=TOP_FLOOR;floor++){
-			if(orderMatrix[button][floor])
-				return 1;
-		}
-	}
-	return 0;
-}
-

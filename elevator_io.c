@@ -2,7 +2,7 @@
 
 static int motorIsRunning=0;
 static int doorClosed=1;
-/*lyskontrollere*/
+/*kontroll av lys*/
 void io_setStopLight(){
 	elev_set_stop_lamp(1);
 }
@@ -29,7 +29,7 @@ void io_setFloorIndicator(int floor){
 	elev_set_floor_indicator(floor);
 }
 
-/*heisaksjoner*/
+/*heishandlinger*/
 void io_openDoor(){
 	timer_startDoorTimer();
 	elev_set_door_open_lamp(1);
@@ -47,25 +47,10 @@ void io_startMotor(){
 }
 void io_stopMotor(){
 	direction_t direction=ctrl_getDirection();
-	int elevatorSpeed = io_read_analog(0);
-	if(elevatorSpeed<1800 || elevatorSpeed>2300)
+	int elevatorSpeed = io_readElevatorSpeed(); 
+	if(elevatorSpeed<-200 || elevatorSpeed>200)
 		elev_set_speed(-300*direction);
-		potet("STOP!");
 		usleep(6000);
-	motorIsRunning=0;
-	elev_set_speed(0);
-
-	/*
-	if(motorIsRunning){
-		elev_set_speed(-300*direction);
-		if(elevatorSpeed<1800 || elevatorSpeed>2300)
-			usleep(6000);
-	}
-	motorIsRunning=0;
-	elev_set_speed(0);
-	*/
-}
-void io_stopMotorEmergency(){
 	motorIsRunning=0;
 	elev_set_speed(0);
 }
@@ -82,6 +67,11 @@ int io_getCurrentFloor(){
 }
 int io_motorIsRunning(){
 	return motorIsRunning;
+}
+int io_readElevatorSpeed(){
+	int speed=io_read_analog(0);
+	speed -= 2060;
+	return speed;
 }
 
 /*knapperegistrering*/
