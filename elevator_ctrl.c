@@ -1,5 +1,4 @@
 #include "elevator_ctrl.h"
-#include <stdlib.h>
 
 static direction_t direction=UP;
 static int currentFloor=-1;
@@ -13,7 +12,6 @@ static int orderMatrix[NUMBER_OF_BUTTON_TYPES][NUMBER_OF_FLOORS]={
 
 /*Hjelpefunksjoner, skal bort i endelig versjon*/
 void potet(char str[]){
-	system(clear);
 	printf("Potet: %s!\n",str);
 }
 void debug_printDestinationMatrix(){
