@@ -11,7 +11,7 @@ typedef struct{
 	int floor;
 }order_t;
 
-order_t ui_lastOrder();
+order_t ui_getLastOrder();
 void ui_checkStop();
 void ui_checkButtons();
 void ui_checkObstruction();

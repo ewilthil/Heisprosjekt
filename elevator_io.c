@@ -17,11 +17,11 @@ void io_resetButtonLight(buttonType_t button, int floor){
 }
 void io_resetAllButtonLights(){
 	int floor;
-	for(floor=0;floor<N_FLOORS;floor++){
+	for(floor=0;floor<NUMBER_OF_FLOORS;floor++){
 		elev_set_button_lamp(BUTTON_COMMAND,floor,0);
 		if(floor!=0)
 			elev_set_button_lamp(BUTTON_CALL_DOWN,floor,0);
-		if(floor<(N_FLOORS-1))
+		if(floor<(NUMBER_OF_FLOORS-1))
 			elev_set_button_lamp(BUTTON_CALL_UP,floor,0);
 	}
 }
@@ -29,7 +29,7 @@ void io_setFloorIndicator(int floor){
 	elev_set_floor_indicator(floor);
 }
 
-/*heishandlinger*/
+/*styring*/
 void io_openDoor(){
 	timer_startDoorTimer();
 	elev_set_door_open_lamp(1);
@@ -43,14 +43,19 @@ void io_closeDoor(){
 void io_startMotor(){
 	direction_t direction = ctrl_getDirection();
 	motorIsRunning=1;
+	//Direction er enten -1 eller 1, derfor er det mulig å gi pådrag i ønsket retning ved å gange med retning.
 	elev_set_speed(300*direction);
 }
 void io_stopMotor(){
 	direction_t direction=ctrl_getDirection();
 	int elevatorSpeed = io_readElevatorSpeed(); 
-	if(elevatorSpeed<-200 || elevatorSpeed>200)
+	if(elevatorSpeed<-200 || elevatorSpeed>200){
+		//Direction er enten -1 eller 1, derfor er det mulig å gi pådrag mot retningen ved å gange med et negativt tall
 		elev_set_speed(-300*direction);
+		//Hvor brått heisen stopper i utgangspunktet varierer veldig mye fra heis til heis og fra gang til gang.
+		//Det kan derfor bli nødvendig å forlenge tiden systemet sover, for å få heisen til å bremse som vi ønsker.
 		usleep(6000);
+	}
 	motorIsRunning=0;
 	elev_set_speed(0);
 }
@@ -70,8 +75,12 @@ int io_motorIsRunning(){
 }
 int io_readElevatorSpeed(){
 	int speed=io_read_analog(0);
+	//Når heisen er i ro vil io_read_analog(0) returnere ca. 2060, dette er funnet eksperimentelt
 	speed -= 2060;
 	return speed;
+}
+int io_doorClosed(){
+	return doorClosed;
 }
 
 /*knapperegistrering*/
@@ -80,18 +89,4 @@ int io_emergencyStopPressed(){
 }
 int io_orderButtonPressed(buttonType_t buttonType, int floor){
 	return elev_get_button_signal(buttonType,floor);
-}
-
-/*guard for SM*/
-int io_doorClosed(){
-	return doorClosed;
-}
-
-void io_resetFloorLightsOnTemporaryStop(int floor){
-	direction_t direction=ctrl_getDirection();
-	elev_set_button_lamp(BUTTON_COMMAND,floor,0);
-	if(direction==UP)
-		elev_set_button_lamp(BUTTON_CALL_UP,floor,0);
-	else if(direction==DOWN)
-		elev_set_button_lamp(BUTTON_CALL_DOWN,floor,0);
 }

@@ -17,7 +17,7 @@ void io_setButtonLight(buttonType_t, int);
 void io_resetButtonLight(buttonType_t,int);
 void io_resetAllButtonLights();
 void io_setFloorIndicator(int);
-/*heishandlinger*/
+/*styring*/
 void io_openDoor();
 void io_closeDoor();
 void io_startMotor();
@@ -28,9 +28,8 @@ int io_elevatorIsInFloor();
 int io_getCurrentFloor();
 int io_motorIsRunning();
 int io_readElevatorSpeed();
+int io_doorClosed();
 /*knapperegistrering*/
 int io_emergencyStopPressed();
 int io_orderButtonPressed(buttonType_t, int);
-/*guard for SM*/
-int io_doorClosed();
 #endif

@@ -73,7 +73,7 @@ void ctrl_handleDestinationFromEM(){
 	}
 }
 void ctrl_handleNewOrder(){
-	order_t lastOrder=ui_lastOrder();
+	order_t lastOrder=ui_getLastOrder();
 	orderMatrix[lastOrder.button][lastOrder.floor]=1;
 	io_setButtonLight(lastOrder.button, lastOrder.floor);
 	sm_handleEvent(NEW_DESTINATION);
@@ -81,11 +81,11 @@ void ctrl_handleNewOrder(){
 
 /*Betingelser for tilstandsmaskin*/
 int ctrl_newOrderFromCommandButton(){
-	order_t lastOrder=ui_lastOrder();
+	order_t lastOrder=ui_getLastOrder();
 	return (lastOrder.button == BUTTON_COMMAND);	
 }
 int ctrl_newOrderNotInCurrentFloor(){
-	order_t lastOrder=ui_lastOrder();
+	order_t lastOrder=ui_getLastOrder();
 	return (lastOrder.floor != currentFloor);
 }
 int ctrl_noObstruction(){
@@ -97,15 +97,15 @@ int ctrl_stopElevatorAtCurrentFloor(){
 	if(direction==UP){
 		if(orderMatrix[BUTTON_CALL_UP][currentFloor]){
 			return 1;
-		}else if(ctrl_upperFloorsHaveOrders()){
+		}else if(ctrl_upperFloorsHaveOrders()){ //Hvis heisen har bestillinger lenger opp, vil den fortsette videre opp
 			return 0;
-		}else
+		}else					//Hvis ikke må det være noen som har trykket ned i etasjen, og heisen vil stoppe
 			return 1;
 	}
 	else if(direction==DOWN){
 		if(orderMatrix[BUTTON_CALL_DOWN][currentFloor]){
 			return 1;
-		}else if(ctrl_lowerFloorsHaveOrders()){
+		}else if(ctrl_lowerFloorsHaveOrders()){ 
 			return 0;
 		}else
 			return 1;
@@ -122,9 +122,12 @@ int ctrl_orderListHaveOrders(){
 	}
 	return 0;
 }
-
+int ctrl_doorClosed(){
+	return io_doorClosed();
+}
 /*Støttefunksjoner for handlinger og betingelser*/
 static void ctrl_setNewDirection(){
+	//Hvis heisen har bestillinger videre i retningen den siste hadde, vil den fortsette i denne retningen, hvis ikke vil funksjonen endre retningen til heisen
 	if(directionFromLastFloor==UP && ctrl_upperFloorsHaveOrders())
 		direction=UP;
 	else if(directionFromLastFloor==UP && ctrl_lowerFloorsHaveOrders())
@@ -152,10 +155,10 @@ static void ctrl_removeOrdersFromCurrentFloor(){
 	else{
 		if(direction==UP){
 			ctrl_removeSingleOrder(BUTTON_CALL_UP);
-			if(!ctrl_upperFloorsHaveOrders())
+			if(!ctrl_upperFloorsHaveOrders())	//Funksjonen vil kun fjerne bestilling i motsatt retning dersom den ikke har bestillinger lenger opp.
 				ctrl_removeSingleOrder(BUTTON_CALL_DOWN);
 		}
-		else{
+		else if(direction==DOWN){
 			ctrl_removeSingleOrder(BUTTON_CALL_DOWN);
 			if(!ctrl_lowerFloorsHaveOrders())
 				ctrl_removeSingleOrder(BUTTON_CALL_UP);
@@ -176,6 +179,8 @@ static int ctrl_orderAtCurrentFloor(){
 }
 static int ctrl_lowerFloorsHaveOrders(){
 	int floor,button,floorCorrection;
+	//floorcorrection er nødvendig for de tilfellene der heisen er mellom etasjer. 
+	//Den vil ikke være nødvendig når heisen er i en etasje, men vil heller ikke uønskede resultater
 	if(directionFromLastFloor==UP)
 		floorCorrection=1;
 	else
@@ -190,6 +195,8 @@ static int ctrl_lowerFloorsHaveOrders(){
 }
 static int ctrl_upperFloorsHaveOrders(){
 	int floor,button,floorCorrection;
+	//floorcorrection er nødvendig for de tilfellene der heisen er mellom etasjer. 
+	//Den vil ikke være nødvendig når heisen er i en etasje, men vil heller ikke uønskede resultater
 	if(directionFromLastFloor==UP)
 		floorCorrection=1;
 	else

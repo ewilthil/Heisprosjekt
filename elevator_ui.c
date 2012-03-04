@@ -4,7 +4,7 @@
 static order_t lastOrder;
 static int elevatorHasBeenObstructed=0;
 
-order_t ui_lastOrder(){
+order_t ui_getLastOrder(){
 	return lastOrder;
 }
 void ui_checkStop(){
@@ -42,6 +42,7 @@ void ui_checkButtons(){
 	}
 }
 void ui_checkObstruction(){
+	//Det er nødvendig å sette en variabel lik io_elevatorIsObstructed() fordi den kan gi ulike verdier dersom den blir kalt to ganger etter hverandre
 	int elevatorIsObstructed=io_elevatorIsObstructed();
 	if(ui_obstructionIsRemoved(elevatorIsObstructed) && ctrl_orderListHaveOrders())
 		sm_handleEvent(NEW_DESTINATION);

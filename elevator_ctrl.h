@@ -32,5 +32,5 @@ int ctrl_newOrderNotInCurrentFloor();
 int ctrl_noObstruction();
 int ctrl_stopElevatorAtCurrentFloor();
 int ctrl_orderListHaveOrders();
-
+int ctrl_doorClosed();
 #endif //ELEVATOR_CTRL_H
