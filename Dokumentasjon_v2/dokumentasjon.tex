@@ -3,24 +3,29 @@
 \usepackage{mypack}
 \usepackage[ampersand]{easylist}
 \usepackage{fullpage}
+\usepackage{subfig}
 \setlength{\parindent}{0cm}
 \begin{document}
 
+\include{title}
+
 \section{Usecases}
-\begin{center}
-	\includegraphics[width=0.7\textwidth]{grafikk/usecase.png}\\
-\end{center}
+\begin{figure}
+\centering
+\label{fig:use_case}
+\includegraphics[width=0.7\textwidth]{grafikk/usecase.png}
+\caption{Usecase-diagram}
+\end{figure}
 \emph{
 Bestillingsknapp: Knappene opp og ned som befinner seg i hver etasje.\\
 Etasjeknapp: Knappene inne i heisen som bestemmer hvor heisen skal gå
-}
+} 
 
 %####################
 \subsection*{Oppstart}
 \begin{minipage}{0.47\textwidth}
 \underline{Precondition:} 
-Ingen
-
+Ingen\\
 \underline{Trigger:}  
 Program startes
 
@@ -44,7 +49,7 @@ Program startes
 Heis i ro i kjent etasje
 
 \underline{Minimal garanti:} 
-samme som suksessgaranti 
+Samme som suksessgaranti 
 
 \end{minipage}
 
@@ -53,72 +58,60 @@ samme som suksessgaranti
 \subsection*{Stopp}
 \begin{minipage}{0.47\textwidth}
 \underline{Precondition:} 
-Ingen
+Heis ikke i oppstartsmodus
 
 \underline{Trigger:} 
-Stopp-knapp trykkes eller obstruksjon aktiveres når heisen er i bevegelse mellom etasjer
+Stopp-knapp trykkes eller obstruksjon aktiveres når heisen er i bevegelse
 
 \underline{Suksesscenario:}
 \begin{enumerate}
 	\item Heisen stoppes
 	\item Alle bestillinger slettes fra bestillingsliste
-	\item For å komme ut av stopp-modus må obstruksjon være av og etasjeknapp må trykkes
+	\item For å komme ut av stopp-modus må bestilling legges inn av etasjeknapp og hvis det er obstruksjon må denne fjernes.
 \end{enumerate}
 \end{minipage}
 \hfill
 \begin{minipage}{0.47\textwidth}
 \underline{Suksessgaranti:}
-\begin{enumerate}
-	\item Heisen står stille
-	\item bestillingene slettes
-\end{enumerate}
+Heisen står stille og bestillingene slettes
 
 \underline{Minimal garanti:} 
-Samme som suksessgaranti
-
-\underline{Scenario:} 
-
+Ingen
 \end{minipage}
 
 %####################
 \subsection*{Bestill Heis}
 \begin{minipage}{0.47\textwidth}
 \underline{Precondition:} 
-Stoppknappen har ikke blitt trykket, heis ikke i oppstartsmodus
+Heis ikke i stoppmodus eller oppstartsmodus
 
 \underline{Trigger:} 
 Bestillingsknapp trykkes inn
 
 \underline{Suksesscenario:} 
 \begin{enumerate}
-	\item Bestilling i etasje blir lagt til i ordreliste
-	\item Heisen fortsetter med andre ordre. En ordre vil slettes etter at den blir ekspedert
-	\item Hvis heisen ikke har flere ordre videre i retningen den sist kjørte, vil den snu og ekspedere ordre i motsatt retning.
+	\item Bestilling i etasje med retning blir lagt til i ordreliste
+	\item Heisen fortsetter med andre ordre. En bestilling vil slettes etter at den blir ekspedert
+	\item Hvis heisen ikke har flere bestillinger videre i retningen den sist kjørte, vil den snu og ekspedere ordre i motsatt retning.
 	\item Når heisen kommer til riktig etasje, stopp heisen
-	\item Fjern etasjen fra ordrelisten, åpne døren
-	\item Døren vil holdes åpen så lenge det er obstruksjon. 
-	\item Når obstruksjonen fjernes vil døren holdes åpen i 3 sekunder.
+	\item Fjern bestilling fra bestillingslisten, åpne døren
+	\item Start nedtelling 3 sekunder
+	\item Når nedtelling når 0, lukk døren
 \end{enumerate}
 \end{minipage}
 \hfill
 \begin{minipage}{0.47\textwidth}
 \underline{Utvidelser:}
 \begin{description}
-	\item 2a. Hvis heisen kommer til riktig etasje i samme retning som bestillingen, hopp til punkt 4.
-	\item 6a. Hvis det ikke er obstruksjon, hold døren oppe i 3 sekunder. 
+	\item 2a. Hvis heisen kommer til bestillt etasje i samme retning som bestillingen, hopp til punkt 4.
+	\item 6a. Hvis obstrulksjon er aktivert, start nedtelling på nytt. 
 \end{description}
 
 \underline{Suksessgaranti:} 
-\begin{enumerate}
-	\item Heisen står i etasjen
-	\item Dør åpen i minimum 3 sekunder, deretter lukkes den hvis det ikke er obstruksjon
-	\item Heisen vil fortsette i samme retning som bestillingen antyder
-\end{enumerate}
+Heis kommer til bestillt etasje. Døren åpnes og holdes åpen i minimum 3 sekunder, den vil holdes åpen så lenge det er obstruksjon.
 
 \underline{Minimal garanti:} 
-\begin{enumerate}
-	\item Ingen
-\end{enumerate}
+Ingen
 \end{minipage}
 
 %####################
@@ -132,13 +125,13 @@ Etasjeknapp trykket
 
 \underline{Suksesscenario:}
 \begin{enumerate}
-	\item Bestilling i etasje blir lagt til i ordreliste
-	\item Heisen med samme retning som før, og stopper for å ekspedere ordre.
-	\item Hvis heisen ikke har flere ordre videre i retningen den sist kjørte, vil den snu og ekspedere ordre i motsatt retning.
+	\item Bestilling i etasje blir lagt til i bestillingsliste
+	\item Heisen fortsetter med andre bestillinger. En bestilling vil slettes etter at den blir ekspedert.
+	\item Hvis heisen ikke har flere bestillinger videre i retningen den sist kjørte, vil den snu og ekspedere bestillinger i motsatt retning.
 	\item Når heisen kommer til riktig etasje, stopp heisen
-	\item Fjern etasjen fra ordrelisten, åpne døren
-	\item Døren vil holdes åpen så lenge det er obstruksjon. 
-	\item Når obstruksjonen fjernes vil døren holdes åpen i 3 sekunder.
+	\item Fjern etasjen fra bestillingslisten, åpne døren
+	\item Start nedtelling 3 sekunder
+	\item Når nedtelling når 0, lukk døren
 \end{enumerate}
 \end{minipage}
 \hfill
@@ -146,12 +139,10 @@ Etasjeknapp trykket
 \underline{Utvidelser:}
 \begin{description}
 \item 2a. Hvis heisen kommer til bestillt etasje, hopp til punkt 4.
+\item 6a. Hvis obstrulksjon er aktivert, start nedtelling på nytt. 
 \end{description}
 \underline{Suksessgaranti:} 
-\begin{enumerate}
-	\item Heis til etasje
-	\item Dør åpen i minimum 3 sekunder, deretter lukkes den hvis det ikke er obstruksjon
-\end{enumerate}
+Heis kommer til bestillt etasje. Døren åpnes og holdes åpen i minimum 3 sekunder, den vil holdes åpen så lenge det er obstruksjon.
 
 \underline{Minimal garanti:} 
 Samme som suksessgaranti
@@ -160,8 +151,9 @@ Samme som suksessgaranti
 
 
 %END USE_CASE
-\include{systemarkitektur}
-\include{klassediagrammer}
+\input{systemarkitektur}
+\input{tilstandsdiagram}
+\input{klassediagrammer}
 
 
 \end{document}
