@@ -3,22 +3,24 @@ Heisstyringa er delt opp i klasser. Måten vi har implementert dette på er at all
 \subsection{Tilstandsmaskinen}
 \begin{figure}
 \centering
-\includegraphics[scale=0.6]{grafikk/stateMachine.png}
-\label{klasse:SM}
-\caption{Klassediagram for tilstandsmaskinen}
+\subfloat[Inn/Ut]{\label{io} \includegraphics[width=0.5\textwidth]{grafikk/io.png}}~
+\subfloat[Kontroll]{\label{control}\includegraphics[width=0.5\textwidth]{grafikk/control.png}}
+\caption{Klassediagrammer}
 \end{figure}
-Tilstandsmaskinen holder orden på hvilken tilstand heisen står i. 
+
+\begin{figure}
+\centering
+\subfloat[Brukergrensesnitt]{\label{ui} \includegraphics[width=0.33\textwidth]{grafikk/ui.png}}~
+\subfloat[Timer]{\label{timer}\includegraphics[width=0.33\textwidth]{grafikk/timer.png}}~
+\subfloat[Tilstandsmaskin]{\label{sm}\includegraphics[width=0.33\textwidth]{grafikk/class_StateMachine.png}}
+\caption{Klassediagrammer}
+\end{figure}
+Tilstandsmaskinen holder orden på hvilken tilstand heisen står i.
 \begin{description}
 \item[handleEvent]\hfill \\
 Bestemmer, sammen med tilstandsvariablen, nestetilstand og handling for heisen når den genererer en hendelse.
 \end{description}
 \subsection{Kontroll}
-\begin{figure}
-\centering
-\includegraphics[scale=0.6]{grafikk/control.png}
-\label{klasse:kontroll}
-\caption{Klassediagram for kontrollklassen}
-\end{figure}
 Kontrollklassen inneholder alle funksjoner og variabler som håndterer logikken og den fysiske funksjonen i heisen, som å bestemme retning, at motoren skal startes, hvilke lys som skal tennes, holde orden på bestillingene, og lignende.
 \begin{description}
 \item[Handlinger]\hfill \\
@@ -33,12 +35,7 @@ setNewDirection, clearAllOrders, setLightsAtElevatorStop, removeOrdersFromCurren
 De fire nederste funksjonene er hjelpefunksjoner som bestemmes av ordrene heisen har. Brukes for å bedre lesbarhet og for å unngå for mye nøsting.
 \end{description}
 \subsection{User Interface}
-\begin{figure}
-\centering
-\includegraphics[scale=0.6]{grafikk/ui.png}
-\label{klasse:ui}
-\caption{Klassediagram for UI-klassen}
-\end{figure}
+
 Denne klassen sørger for å håndtere input fra brukeren, som bestillingsknapper, stoppknapp og obstruksjonsføleren i døra. Den sørger for å sende bestillinger til kontroll.
 \begin{description}
 \item[Sjekkfunksjoner]\hfill \\
@@ -47,24 +44,14 @@ checkButtons, checkStop og checkObstruction løper i main-funksjonen for å for å 
 Denne kalles av kontroll-klassen for å returnere siste ordreknapp som ble trykket inn og legge bestilling i ordrelisten.
 \end{description}
 \subsection{Timer}
-\begin{figure}
-\centering
-\includegraphics[scale=0.6]{grafikk/timer.png}
-\label{klasse:timer}
-\caption{Klassediagram for timeren}
-\end{figure}
+
 Timeren er en enkel klasse for å telle ned tre sekunder hver gang døren åpnes i en etasje. Den har to variabler fra time-biblioteket for å telle opp til 3 sekunder, og et heltall som holder orden på om den er aktiv eller iikke.
 \begin{description}
 \item[checkDoorTimer]\hfill \\
 Denne står også og løper i main-funksjonen, og sjekker om nedtellingen er ferdig eller ikke.
 \end{description}
 \subsection{I/O}
-\begin{figure}
-\centering
-\includegraphics[scale=0.6]{grafikk/io.png}
-\label{fig:class_ui}
-\caption{Klassediagram for I/O-klassen}
-\end{figure}
+
 I/O klassen er en egenlagt driver for å styre heisen. Dette er vår mest maskinnære klasse, som inneholder funksjoner for alle hardware-relaterte operasjoner som å skru av og på lys, gi signal fra sensoren og sette motorhastigheten. Disse funksjonene implementeres ved hjelp av medfølgende funksjoner i elev.c og io.c
 \begin{description}
 \item[Lysfunksjoner]\hfill \\

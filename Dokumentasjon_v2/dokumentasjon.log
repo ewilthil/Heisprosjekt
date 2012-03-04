@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.9.10)  3 MAR 2012 10:46
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.9.10)  4 MAR 2012 09:21
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -201,34 +201,66 @@ Package: easylist 2010/02/28 v.1.3 Numbered items with a single command.
 Package: fullpage 1999/02/23 1.1 (PWD)
 \FP@margin=\skip46
 )
-(./dokumentasjon.aux (./systemarkitektur.aux))
+(/usr/local/texlive/2011/texmf-dist/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2010/01/09 v3.1m Customizing captions (AR)
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2010/01/14 v3.1m caption3 kernel (AR)
+\captionmargin=\dimen121
+\captionmargin@=\dimen122
+\captionwidth=\dimen123
+\caption@indent=\dimen124
+\caption@parindent=\dimen125
+\caption@hangindent=\dimen126
+)
+\c@ContinuedFloat=\count115
+Package caption Info: float package is loaded.
+)
+\c@KVtest=\count116
+\sf@farskip=\skip47
+\sf@captopadj=\dimen127
+\sf@capskip=\skip48
+\sf@nearskip=\skip49
+\c@subfigure=\count117
+\c@subfigure@save=\count118
+\c@lofdepth=\count119
+\c@subtable=\count120
+\c@subtable@save=\count121
+\c@lotdepth=\count122
+\sf@top=\skip50
+\sf@bottom=\skip51
+)
+(./dokumentasjon.aux (./title.aux))
 \openout1 = `dokumentasjon.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
-LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
 
 (/usr/local/texlive/2011/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count115
-\scratchdimen=\dimen121
+\scratchcounter=\count123
+\scratchdimen=\dimen128
 \scratchbox=\box32
-\nofMPsegments=\count116
-\nofMParguments=\count117
+\nofMPsegments=\count124
+\nofMParguments=\count125
 \everyMPshowfont=\toks24
-\MPscratchCnt=\count118
-\MPscratchDim=\dimen122
-\MPnumerator=\count119
-\makeMPintoPDFobject=\count120
+\MPscratchCnt=\count126
+\MPscratchDim=\dimen129
+\MPnumerator=\count127
+\makeMPintoPDFobject=\count128
 \everyMPtoPDFconversion=\toks25
 ) (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/04/22 v0.16 Utilities of pdfTeX for LuaTeX (HO)
@@ -277,111 +309,144 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-<grafikk/usecase.png, id=1, 528.97626pt x 328.22626pt>
+Package caption Info: Begin \AtBeginDocument code.
+Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
+LaTeX Info: Redefining \subref on input line 8.
+Package caption Info: End \AtBeginDocument code.
+\openout2 = `title.aux'.
+
+
+(./title.tex <grafikk/NTNU.png, id=1, 449.5194pt x 130.8087pt>
+File: grafikk/NTNU.png Graphic file (type png)
+
+<use grafikk/NTNU.png>
+Package pdftex.def Info: grafikk/NTNU.png used on input line 5.
+(pdftex.def)             Requested size: 226.48395pt x 65.90517pt.
+ [1
+
+
+{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./grafi
+kk/NTNU.png>])
+<grafikk/usecase.png, id=10, 528.97626pt x 328.22626pt>
 File: grafikk/usecase.png Graphic file (type png)
 
 <use grafikk/usecase.png>
-Package pdftex.def Info: grafikk/usecase.png used on input line 11.
+Package pdftex.def Info: grafikk/usecase.png used on input line 16.
 (pdftex.def)             Requested size: 317.07614pt x 196.74194pt.
 
-Underfull \hbox (badness 2293) in paragraph at lines 65--66
-[]\OT1/cmr/m/n/10 For ^^Wa komme ut av stopp-modus m^^Wa
- []
-
-
-Underfull \hbox (badness 6944) in paragraph at lines 86--88
-[]$[]$ \OT1/cmr/m/n/10 Stopp-knap-pen har ikke blitt
+Underfull \hbox (badness 3199) in paragraph at lines 107--108
+[]\OT1/cmr/m/n/10 6a. Hvis ob-strulk-sjon er ak-tivert, start
  []
 
 [1
 
-{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./grafi
-kk/usecase.png>] [2]
-\openout2 = `systemarkitektur.aux'.
+ <./grafikk/usecase.png>]
+Underfull \hbox (badness 1721) in paragraph at lines 132--133
+[]\OT1/cmr/m/n/10 Fjern etas-jen fra bestill-ingslis-ten, ^^Wapne
+ []
 
- (./systemarkitektur.tex
-<grafikk/systemarkitektur.png, id=15, 1052.93375pt x 499.8675pt>
+
+Underfull \hbox (badness 3199) in paragraph at lines 142--143
+[]\OT1/cmr/m/n/10 6a. Hvis ob-strulk-sjon er ak-tivert, start
+ []
+
+(./systemarkitektur.tex
+<grafikk/systemarkitektur.png, id=17, 1052.93375pt x 499.8675pt>
 File: grafikk/systemarkitektur.png Graphic file (type png)
 
 <use grafikk/systemarkitektur.png>
 Package pdftex.def Info: grafikk/systemarkitektur.png used on input line 4.
 (pdftex.def)             Requested size: 452.9679pt x 215.04561pt.
- [3
 
- <./grafikk/systemarkitektur.png>])
-[4]
-\openout2 = `klassediagrammer.aux'.
+Overfull \hbox (36.69856pt too wide) in paragraph at lines 10--11
+\OT1/cmr/m/n/10 mentene NEW[]DESTINATION, FLOOR[]REACHED, STOP[]PRESSED og OR-D
+ER[]BUTTON[]PRESSED
+ []
 
- (./klassediagrammer.tex
-<grafikk/stateMachine.png, id=22, 269.005pt x 71.26625pt>
-File: grafikk/stateMachine.png Graphic file (type png)
+[2]) (./tilstandsdiagram.tex
+<grafikk/tilstandsdiagram.png, id=22, 923.45pt x 538.01pt>
+File: grafikk/tilstandsdiagram.png Graphic file (type png)
 
-<use grafikk/stateMachine.png>
-Package pdftex.def Info: grafikk/stateMachine.png used on input line 6.
-(pdftex.def)             Requested size: 161.40424pt x 42.76006pt.
+<use grafikk/tilstandsdiagram.png>
+Package pdftex.def Info: grafikk/tilstandsdiagram.png used on input line 5.
+(pdftex.def)             Requested size: 452.9679pt x 263.89812pt.
+) (./klassediagrammer.tex [3 <./grafikk/systemarkitektur.png>] <grafikk/io.png,
+ id=26, 438.63875pt x 425.59pt>
+File: grafikk/io.png Graphic file (type png)
 
-<grafikk/control.png, id=23, 361.35pt x 457.71pt>
+<use grafikk/io.png>
+Package pdftex.def Info: grafikk/io.png used on input line 6.
+(pdftex.def)             Requested size: 226.48395pt x 219.74951pt.
+ <grafikk/control.png, id=27, 392.46625pt x 489.83pt>
 File: grafikk/control.png Graphic file (type png)
- <use grafikk/control.png>
-Package pdftex.def Info: grafikk/control.png used on input line 18.
-(pdftex.def)             Requested size: 216.81168pt x 274.62813pt.
 
-Overfull \hbox (5.70427pt too wide) in paragraph at lines 24--26
+<use grafikk/control.png>
+Package pdftex.def Info: grafikk/control.png used on input line 7.
+(pdftex.def)             Requested size: 226.48395pt x 282.67403pt.
+
+Overfull \hbox (7.77776pt too wide) in paragraph at lines 6--8
+ [][]  [] 
+ []
+
+<grafikk/ui.png, id=28, 252.945pt x 151.56625pt>
+File: grafikk/ui.png Graphic file (type png)
+ <use grafikk/ui.png>
+Package pdftex.def Info: grafikk/ui.png used on input line 13.
+(pdftex.def)             Requested size: 149.48022pt x 89.57132pt.
+
+<grafikk/timer.png, id=29, 191.71625pt x 135.50626pt>
+File: grafikk/timer.png Graphic file (type png)
+ <use grafikk/timer.png>
+Package pdftex.def Info: grafikk/timer.png used on input line 14.
+(pdftex.def)             Requested size: 149.48022pt x 105.65929pt.
+
+<grafikk/class_StateMachine.png, id=30, 269.005pt x 71.26625pt>
+File: grafikk/class_StateMachine.png Graphic file (type png)
+
+<use grafikk/class_StateMachine.png>
+Package pdftex.def Info: grafikk/class_StateMachine.png used on input line 15.
+(pdftex.def)             Requested size: 149.48022pt x 39.60106pt.
+
+Overfull \hbox (7.69496pt too wide) in paragraph at lines 13--16
+ [][]  []  [] 
+ []
+
+
+Overfull \hbox (5.70427pt too wide) in paragraph at lines 26--28
 \OT1/cmr/m/n/10 oppf^^\rselen til heisen. Grun-nen til tre forskjel-lige handle
 Destination-funksjoner er at man i n^^\dstopp-
  []
 
-[5
 
-
- <./grafikk/stateMachine.png> <./grafikk/control.png>]
-Overfull \hbox (13.72755pt too wide) in paragraph at lines 26--28
+Overfull \hbox (13.72755pt too wide) in paragraph at lines 28--30
 \OT1/cmr/m/n/10 newOrderFromCommandButton, newOrder-Not-In-Cur-rent-Floor, noOb
 -struc-tion og stopEl-e-va-torAtCur-
  []
 
-<grafikk/ui.png, id=29, 252.945pt x 151.56625pt>
-File: grafikk/ui.png Graphic file (type png)
- <use grafikk/ui.png>
-Package pdftex.def Info: grafikk/ui.png used on input line 38.
-(pdftex.def)             Requested size: 151.76816pt x 90.94044pt.
-
-<grafikk/timer.png, id=30, 191.71625pt x 135.50626pt>
-File: grafikk/timer.png Graphic file (type png)
- <use grafikk/timer.png>
-Package pdftex.def Info: grafikk/timer.png used on input line 52.
-(pdftex.def)             Requested size: 115.03062pt x 81.30437pt.
-
-[6 <./grafikk/ui.png> <./grafikk/timer.png>]
-<grafikk/io.png, id=34, 438.63875pt x 361.35pt>
-File: grafikk/io.png Graphic file (type png)
- <use grafikk/io.png>
-Package pdftex.def Info: grafikk/io.png used on input line 64.
-(pdftex.def)             Requested size: 263.18527pt x 216.81168pt.
-) [7 <./grafikk/io.png>] (./dokumentasjon.aux (./systemarkitektur.aux)
-(./klassediagrammer.aux))
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[4 <./grafikk/tilstandsdiagram.png>] [5 <./grafikk/io.png> <./grafikk/control.p
+ng> <./grafikk/ui.png> <./grafikk/timer.png> <./grafikk/class_StateMachine.png>
+]) [6] (./dokumentasjon.aux (./title.aux)) ) 
 Here is how much of TeX's memory you used:
- 3106 strings out of 493633
- 40608 string characters out of 3143377
- 112537 words of memory out of 3000000
- 6349 multiletter control sequences out of 15000+200000
- 6617 words of font info for 24 fonts, out of 3000000 for 9000
+ 4205 strings out of 493633
+ 60074 string characters out of 3143377
+ 138483 words of memory out of 3000000
+ 7432 multiletter control sequences out of 15000+200000
+ 8425 words of font info for 30 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 37i,7n,37p,528b,263s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></us
-r/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
-/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on dokumentasjon.pdf (7 pages, 190023 bytes).
+ 44i,10n,45p,526b,370s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2011/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2011/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2011/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2011/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2011/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2011/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2011/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2011/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmti10.pfb>
+Output written on dokumentasjon.pdf (7 pages, 344641 bytes).
 PDF statistics:
- 61 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 72 PDF objects out of 1000 (max. 8388607)
+ 43 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
